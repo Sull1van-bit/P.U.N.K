@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f3f4f6;
+            font-family: Arial, sans-serif;
+        }
+
+        #left-panel {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 20%;
+        }
+
+        #stats {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            width: 60%;
+            background-color: #fbbf24; 
+            padding: 1rem;
+            border-radius: 10px;
+        }
+
+        #stats .stat {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            font-size: 1.2rem;
+        }
+
+        #gamepad {
+            display: grid;
+            grid-template-areas:
+                ". up ."
+                "left center right"
+                ". down .";
+            gap: 10px;
+            width: 20%;
+        }
+
+        #gamepad button {
+            width: 50px;
+            height: 50px;
+            background-color: #4b5563;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+
+        #gamepad button:hover {
+            background-color: #1f2937; 
+        }
+
+        #gamepad .up {
+            grid-area: up;
+        }
+
+        #gamepad .down {
+            grid-area: down;
+        }
+
+        #gamepad .left {
+            grid-area: left;
+        }
+
+        #gamepad .right {
+            grid-area: right;
+        }
+
+        #gamepad .center {
+            grid-area: center;
+        }
+    </style>
+</head>
+<body>
+    <!-- Panel Kiri -->
+    <div id="left-panel">
+        <img src="../asset/0.jpg" alt="Character" width="200" height="200" class="rounded-full">
+    </div>
+
+    <!-- Panel Tengah (Stats) -->
+    <div id="stats">
+        <div class="stat">
+            <span>Happiness:</span>
+            <span>80%</span>
+        </div>
+        <div class="stat">
+            <span>Energy:</span>
+            <span>70%</span>
+        </div>
+        <div class="stat">
+            <span>Hunger:</span>
+            <span>50%</span>
+        </div>
+    </div>
+
+    <!-- Panel Kanan (Gamepad) -->
+    <div id="gamepad">
+        <button class="up">↑</button>
+        <button class="left">←</button>
+        <button class="center">●</button>
+        <button class="right">→</button>
+        <button class="down">↓</button>
+    </div>
+</body>
+</html>

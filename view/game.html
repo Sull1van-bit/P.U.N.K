@@ -7,16 +7,15 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&display=swap" rel="stylesheet">
-  <link href="style.css" rel="stylesheet">
-
   <style>
     body {
       margin: 0;
-      
+      font-family: "Pixelify Sans", sans-serif;
       background-color: #f3f4f6;
       height: 100vh;
       position: relative;
       overflow: hidden;
+      font-size: 0.75rem; 
     }
 
     #game-container {
@@ -31,10 +30,11 @@
       background-color: #fbbf24;
       border-radius: 10px 10px 0 0;
       box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.1);
-      padding: 1rem;
+      padding: 0.5rem; 
     }
 
     #left-panel {
+      margin-left: 20px;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -42,39 +42,47 @@
       width: 20%;
     }
 
-
+    #left-panel img {
+      
+      width: 180px;
+      height: 180px;
+      /* border-radius: 50%; */
+      border: 2px solid #4b5563;
+      object-fit: cover;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
 
     #stats {
       display: grid;
       grid-template-columns: 1fr;
-      gap: 0.5rem;
+      gap: 0.4rem;
       width: 50%;
     }
 
     .stat {
       display: grid;
-      grid-template-columns: 100px 1fr;
+      grid-template-columns: 80px 1fr;
       align-items: center;
-      padding: 0.5rem 1rem;
+      padding: 0.25rem 0.5rem;
       border-radius: 5px;
-      font-size: 0.9rem;
+      font-size: 0.75rem;
     }
-    
+
     .stat-money {
       display: grid;
-      grid-template-columns: 100px 1fr;
+      grid-template-columns: 80px 1fr;
       align-items: center;
       background-color: #fff;
-      padding: 0.5rem 1rem;
+      padding: 0.25rem 0.5rem;
       border-radius: 5px;
-      width: 27%;
+      width: 20%;
       box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-      font-size: 0.9rem;
+      font-size: 0.75rem;
     }
 
     .progress-bar {
       width: 100%;
-      height: 10px;
+      height: 6px;
       background-color: #e5e7eb;
       border: 1px solid #000;
       border-radius: 5px;
@@ -93,30 +101,32 @@
     #hunger-bar { background-color: #00ff00; }
 
     #gamepad {
-      display: grid;
-      grid-template-areas:
-        ". up ."
-        "left center right"
-        ". down .";
-      gap: 10px;
-      width: 20%;
-      justify-items: center;
-      align-items: center;
-    }
+  display: grid;
+  grid-template-areas:
+    ". up ."
+    "left center right"
+    ". down .";
+  column-gap: 2px;
+  row-gap: 5px;
+  width: 20%;
+  justify-items: center;
+  align-items: center;
+}
+
 
     #gamepad button {
-      width: 40px;
-      height: 40px;
+      width: 60px;
+      height: 60px;
       background-color: #4b5563;
       color: white;
       border: none;
       border-radius: 5px;
-      font-size: 1rem;
+      font-size: 0.75rem;
       cursor: pointer;
     }
 
     #gamepad button:hover {
-        background-color: #1f2937;
+      background-color: #1f2937;
     }
 
     #gamepad .up { grid-area: up; }
@@ -124,37 +134,46 @@
     #gamepad .left { grid-area: left; }
     #gamepad .right { grid-area: right; }
     #gamepad .center { grid-area: center; }
-    </style>
+  </style>
 </head>
-<body class="font-Pixelify-mono">
-    
+<body>
   <div id="game-container">
-      <div id="left-panel">
-          <img src="../asset/0.jpg" alt="Character" class="rounded-full w-lg h-1/4">
-        </div>
-        
-        <div id="stats">
+    <div id="left-panel">
+      <img src="../asset/0.jpg" alt="Character">
+    </div>
 
-            <div class="stat-money">
-              <span>Money</span>
-              <span id="money">Rp100,000</span>
-            </div>
-
-            <div class="stat">
-                <span>HP</span>
-                <div class="progress-bar"><div id="hp-bar" class="progress" style="width: 100%;"></div></div>
+    <div id="stats">
+      <div class="stat-money">
+        <span>Money</span>
+        <span id="money">Rp100,000</span>
       </div>
+
+      <div class="stat">
+        <span>HP</span>
+        <div class="progress-bar">
+          <div id="hp-bar" class="progress" style="width: 100%;"></div>
+        </div>
+      </div>
+
       <div class="stat">
         <span>Energy</span>
-        <div class="progress-bar"><div id="energy-bar" class="progress" style="width: 80%;"></div></div>
+        <div class="progress-bar">
+          <div id="energy-bar" class="progress" style="width: 80%;"></div>
+        </div>
       </div>
+
       <div class="stat">
         <span>Happiness</span>
-        <div class="progress-bar"><div id="happiness-bar" class="progress" style="width: 60%;"></div></div>
+        <div class="progress-bar">
+          <div id="happiness-bar" class="progress" style="width: 60%;"></div>
+        </div>
       </div>
+
       <div class="stat">
         <span>Hunger</span>
-        <div class="progress-bar"><div id="hunger-bar" class="progress" style="width: 40%;"></div></div>
+        <div class="progress-bar">
+          <div id="hunger-bar" class="progress" style="width: 40%;"></div>
+        </div>
       </div>
     </div>
 

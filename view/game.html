@@ -1,220 +1,170 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&display=swap" rel="stylesheet">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Game</title>
-    <link rel="stylesheet" href="style.css">
-    <style>
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: flex-end;
-            height: 100vh;
-            margin: 0;
-            background-color: #f3f4f6;
-            font-family: Arial, sans-serif;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Game</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&display=swap" rel="stylesheet">
+  <link href="style.css" rel="stylesheet">
 
-        #character-stats {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: flex-end;
-            width: 100%;
-            position: absolute;
-            bottom: 0;
-        }
+  <style>
+    body {
+      margin: 0;
+      
+      background-color: #f3f4f6;
+      height: 100vh;
+      position: relative;
+      overflow: hidden;
+    }
 
-        #stats {
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            justify-content: flex-start;
-            gap: 2rem;
-            width: 100%;
-            background-color: #fbbf24;
-            padding: 1rem;
-            border-radius: 10px 10px 0 0;
-            box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.2);
-        }
+    #game-container {
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      background-color: #fbbf24;
+      border-radius: 10px 10px 0 0;
+      box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.1);
+      padding: 1rem;
+    }
 
-        #left-panel {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            width: 150px;
-            height: 150px;
-            border: 5px solid #4b5563;
-            border-radius: 50%;
-            background-color: #e5e7eb;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            overflow: hidden;
-        }
+    #left-panel {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 20%;
+    }
 
-        #left-panel img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            border-radius: 50%;
-        }
 
-        .stat-container {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-            width: 100%;
-        }
 
-        .stat {
-            display: flex;
-            align-items: center;
-            justify-content: flex-start;
-            width: 100%;
-            font-size: 1.2rem;
-            gap: 1rem;
-        }
+    #stats {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 0.5rem;
+      width: 50%;
+    }
 
-        .stat.money {
-            font-size: 1.5rem;
-            font-weight: bold;
-        }
+    .stat {
+      display: grid;
+      grid-template-columns: 100px 1fr;
+      align-items: center;
+      padding: 0.5rem 1rem;
+      border-radius: 5px;
+      font-size: 0.9rem;
+    }
+    
+    .stat-money {
+      display: grid;
+      grid-template-columns: 100px 1fr;
+      align-items: center;
+      background-color: #fff;
+      padding: 0.5rem 1rem;
+      border-radius: 5px;
+      width: 27%;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      font-size: 0.9rem;
+    }
 
-        .progress-bar {
-            display: flex;
-            align-items: center;
-            width: 100%;
-            height: 20px;
-            background-color: #e5e7eb;
-            border: 2px solid #000;
-            border-radius: 5px;
-            overflow: hidden;
-        }
+    .progress-bar {
+      width: 100%;
+      height: 10px;
+      background-color: #e5e7eb;
+      border: 1px solid #000;
+      border-radius: 5px;
+      overflow: hidden;
+    }
 
-        .progress {
-            height: 100%;
-            background-color: #4caf50;
-            transition: width 0.3s ease;
-        }
+    .progress {
+      height: 100%;
+      background-color: #4caf50;
+      transition: width 0.3s ease;
+    }
 
-        .progress-bar, .progress {
-            image-rendering: pixelated;
-        }
+    #hp-bar { background-color: #ff0000; }
+    #energy-bar { background-color: #ffa500; }
+    #happiness-bar { background-color: #ffff00; }
+    #hunger-bar { background-color: #00ff00; }
 
-        #hp-bar {
-            background-color: #ff0000;
-        }
+    #gamepad {
+      display: grid;
+      grid-template-areas:
+        ". up ."
+        "left center right"
+        ". down .";
+      gap: 10px;
+      width: 20%;
+      justify-items: center;
+      align-items: center;
+    }
 
-        #energy-bar {
-            background-color: #ffa500;
-        }
+    #gamepad button {
+      width: 40px;
+      height: 40px;
+      background-color: #4b5563;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 1rem;
+      cursor: pointer;
+    }
 
-        #happiness-bar {
-            background-color: #ffff00;
-        }
+    #gamepad button:hover {
+        background-color: #1f2937;
+    }
 
-        #hunger-bar {
-            background-color: #00ff00;
-        }
-
-        .hunger-container {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .hunger-icon-wrapper {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            overflow: hidden;
-            background-color: #000;
-        }
-
-        .hunger-icon {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .progress-bar.hunger-bar {
-            display: flex;
-            align-items: center;
-            width: calc(100% - 30px);
-            height: 20px;
-            background-color: #e5e7eb;
-            border: 2px solid #000;
-            border-radius: 5px;
-            overflow: hidden;
-        }
-
-        .progress {
-            height: 100%;
-            background-color: #4caf50;
-            transition: width 0.3s ease;
-        }
-
-        .progress-bar, .progress {
-            image-rendering: pixelated;
-        }
+    #gamepad .up { grid-area: up; }
+    #gamepad .down { grid-area: down; }
+    #gamepad .left { grid-area: left; }
+    #gamepad .right { grid-area: right; }
+    #gamepad .center { grid-area: center; }
     </style>
-    <script src="/mechanism/stat.js"></script>
 </head>
-<body>
-    <div id="character-stats">
-        <div id="stats">
-            <div id="left-panel">
-                <img src="/P.U.N.K-main/bruh.gif" alt="Character" class="rounded-full">
-            </div>
-            <div class="stat-container">
-                <div class="stat money">
-                    <span>Money: </span>
-                    <span id="money">Rp100,000</span>
-                </div>
-                <div class="stat">
-                    <span>HP:</span>
-                    <div class="progress-bar">
-                        <div id="hp-bar" class="progress" style="width: 100%;"></div>
-                    </div>
-                </div>
-                <div class="stat">
-                    <span>Energy:</span>
-                    <div class="progress-bar">
-                        <div id="energy-bar" class="progress" style="width: 80%;"></div>
-                    </div>
-                </div>
-                <div class="stat">
-                    <span>Happiness:</span>
-                    <div class="progress-bar">
-                        <div id="happiness-bar" class="progress" style="width: 60%;"></div>
-                    </div>
-                </div>
-                <div class="stat">
-                    <div class="hunger-container">
-                        <div class="hunger-icon-wrapper">
-                            <img src="/P.U.N.K-main/hunger.png" alt="hunger" class="hunger-icon">
-                        </div>
-                        <div class="progress-bar hunger-bar">
-                            <div id="hunger-bar" class="progress" style="width: 40%;"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+<body class="font-Pixelify-mono">
+    
+  <div id="game-container">
+      <div id="left-panel">
+          <img src="../asset/0.jpg" alt="Character" class="rounded-full w-lg h-1/4">
         </div>
+        
+        <div id="stats">
+
+            <div class="stat-money">
+              <span>Money</span>
+              <span id="money">Rp100,000</span>
+            </div>
+
+            <div class="stat">
+                <span>HP</span>
+                <div class="progress-bar"><div id="hp-bar" class="progress" style="width: 100%;"></div></div>
+      </div>
+      <div class="stat">
+        <span>Energy</span>
+        <div class="progress-bar"><div id="energy-bar" class="progress" style="width: 80%;"></div></div>
+      </div>
+      <div class="stat">
+        <span>Happiness</span>
+        <div class="progress-bar"><div id="happiness-bar" class="progress" style="width: 60%;"></div></div>
+      </div>
+      <div class="stat">
+        <span>Hunger</span>
+        <div class="progress-bar"><div id="hunger-bar" class="progress" style="width: 40%;"></div></div>
+      </div>
     </div>
+
     <div id="gamepad">
-        <button class="up">↑</button>
-        <button class="left">←</button>
-        <button class="center">●</button>
-        <button class="right">→</button>
-        <button class="down">↓</button>
+      <button class="up">↑</button>
+      <button class="left">←</button>
+      <button class="center">●</button>
+      <button class="right">→</button>
+      <button class="down">↓</button>
     </div>
+  </div>
 </body>
 </html>

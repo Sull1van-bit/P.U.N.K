@@ -1,0 +1,13 @@
+@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&display=swap');
+
+@theme {
+  --font-Pixelify-sans: 'Pixelify Sans', sans-serif;
+  --font-Pixelify-mono: 'Pixelify Sans', sans-serif;
+  --color-blue-500: #3b82f6;
+  --color-white: #ffffff;
+  --spacing: 0.25rem;
+  --text-3xl: 1.875rem;
+  --text-3xl--line-height: calc(2.25 / 1.875);
+  --font-weight-bold: 700;
+}

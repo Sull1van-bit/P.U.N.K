@@ -17,34 +17,207 @@
       opacity: 1; 
     }
 
+    body.fading-out {
+      opacity: 0;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .carousel img {
+      display: none;
+      width: 50%;
+      height: auto;
+    }
+
+    .carousel img.active {
+      display: block;
+    }
+
+    .carousel .arrow {
+      position: fixed;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 2rem;
+      color: white;
+      padding: 10px;
+      cursor: pointer;
+      user-select: none;
+      z-index: 1000;
+    }
+
+    .description {
+      width: 50%;
+      color: white;
+      font-family: 'Pixelify Sans', sans-serif;
+    }
+
+    .description h2 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+
+    .description p {
+      font-size: 1.25rem;
+      line-height: 1.5;
+    }
+
+    .back-button {
+      position: absolute;
+      top: 10%;
+      left: 5%;
+      font-size: 1.5rem;
+      color: white;
+      background-color: rgba(0, 0, 0, 0.5);
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      user-select: none;
+      z-index: 1000;
+    }
+
+    .back-button:hover {
+      background-color: rgba(255, 0, 0, 0.7);
+    }
   </style>
 </head>
 <body class="flex flex-col items-center justify-center h-screen space-y-6 bg-cover bg-center bg-no-repeat" style="background-image: url('../asset/bg.jpg');">
-    <h1 class="font-Pixelify-sans text-7xl text-white font-bold text-center">
-        Punk
-    </h1>
-    <span class="font-Pixelify-sans text-2xl text-white text-center">Pemuda Urakan Namun Kreatif</span>
-    <a href="char.html"><button class="font-Pixelify-mono bg-purple-800 text-white px-10 py-3 rounded hover:bg-red -700 hover:text-white transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50" onclick="">
-        Play
+  <h1 class="font-Pixelify-sans text-7xl text-white font-bold text-center">
+    P.U.N.K
+  </h1>
+  <span class="font-Pixelify-sans text-2xl text-white text-center">Indonesia Cyberpunk Experience</span>
+  <button class="font-Pixelify-mono bg-purple-800 text-white px-10 py-3 rounded hover:bg-red-700 hover:text-white transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50" onclick="playClickSound(); startGame()">
+    Start
+  </button>
+
+  <!-- Character Selection -->
+  <div id="character-selection" class="hidden flex flex-col items-center justify-center h-screen space-y-6">
+    <div class="absolute top-0 w-full text-center pt-10">
+      <h1 class="font-Pixelify-sans text-7xl text-white font-bold">
+        Select Your Character!
+      </h1>
+    </div>
+
+    <div class="carousel-container flex items-center justify-center gap-2 w-4xs mx-0 my-auto">
+      <div class="carousel relative w-5xl flex items-center overflow-hidden">
+        <span class="arrow left-20" onclick="playClickSound(); prevImage()"><</span>
+        <img src="/P.U.N.K/asset/Defrina/charselection.png" alt="Defrina" class="active">
+        <img src="/P.U.N.K/asset/Windu/charselection.png" alt="Windu">
+        <img src="/P.U.N.K/asset/Ale/charselection.png" alt="Ale">
+        <span class="arrow right-20" onclick="playClickSound(); nextImage()">></span>
+      </div>
+
+      <div class="description w-4xl text-white">
+        <h2 id="image-title">Defrina</h2>
+        <p id="image-description">Defrina is a resourceful and street-smart survivor, navigating the neon-lit chaos of the city with ease. Born into a world of towering megacorporations and underground resistance networks, she has learned to adapt, making a name for herself in both legal and illicit circles. Whether she’s hacking into restricted systems, negotiating with black-market dealers, or simply unwinding in a futuristic nightclub, Defrina’s life is shaped by the choices she makes. She sports a sleek, modular jacket that shifts with the latest tech trends, embedded with holo-displays that flash her ever-changing affiliations. Her deep violet hair, streaked with glowing circuits, frames a face that is both determined and enigmatic. Beneath her composed exterior, she harbors dreams of escaping the city's grip—whether that means forging her own empire or dismantling the systems that control it.</p>
+      </div>
+    </div>
+
+    <!-- Play Button -->
+    <button class="font-Pixelify-mono bg-purple-800 text-white px-10 py-3 rounded hover:bg-red-700 hover:text-white transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50" onclick="playClickSound(); playerChar()">
+      Play as <span id="selected-character-name">Defrina</span>
     </button>
-  </a>
 
-    <script>
-      
-      window.addEventListener('load', () => {
-        document.body.classList.add('loaded');
-      });
+    <!-- Back Button -->
+    <div class="back-button" onclick="playClickSound(); goBack()">
+      &lt; BACK
+    </div>
+  </div>
 
-      document.querySelectorAll('a').forEach(link => {
-        link.addEventListener('click', (e) => {
-          e.preventDefault(); 
-          const href = link.getAttribute('href'); 
-          document.body.classList.remove('loaded'); 
-          setTimeout(() => {
-            window.location.href = href;
-          }, 500); 
-        });
+  <!-- Background Music -->
+  <audio id="background-music" loop>
+    <source src="/P.U.N.K/asset/sound/menu.wav" type="audio/wav">
+    Your browser does not support the audio element.
+  </audio>
+
+  <!-- Button Sound -->
+  <audio id="click-sound">
+    <source src="/P.U.N.K/asset/sound/click.wav" type="audio/wav">
+    Your browser does not support the audio element.
+  </audio>
+
+  <script>
+    window.addEventListener('load', () => {
+      document.body.classList.add('loaded');
+
+      // BG Music
+      const music = document.getElementById('background-music');
+      music.volume = 0.5;
+      music.play().catch(error => {
+        console.log('Music playback failed:', error);
       });
-    </script>
+    });
+
+    function playClickSound() {
+      const clickSound = document.getElementById('click-sound');
+      clickSound.currentTime = 0; // Restart Button sound
+      clickSound.play().catch(error => {
+        console.log('Click sound playback failed:', error);
+      });
+    }
+
+    function startGame() {
+      // Hide main screen and show the character selection
+      document.body.classList.add('fading-out');
+      setTimeout(() => {
+        document.querySelector('h1').classList.add('hidden');
+        document.querySelector('span').classList.add('hidden');
+        document.querySelector('button').classList.add('hidden');
+        document.getElementById('character-selection').classList.remove('hidden');
+        document.body.classList.remove('fading-out');
+      }, 500); // Match the fade-out duration
+    }
+
+    function goBack() {
+      // Hide the character selection and show the main screen
+      document.getElementById('character-selection').classList.add('hidden');
+      document.querySelector('h1').classList.remove('hidden');
+      document.querySelector('span').classList.remove('hidden');
+      document.querySelector('button').classList.remove('hidden');
+    }
+
+    let currentIndex = 0;
+    const images = document.querySelectorAll('.carousel img');
+    const titles = ["Defrina", "Windu", "Ale"];
+    const descriptions = [
+      "Defrina is a resourceful and street-smart survivor, navigating the neon-lit chaos of the city with ease. Born into a world of towering megacorporations and underground resistance networks, she has learned to adapt, making a name for herself in both legal and illicit circles. Whether she’s hacking into restricted systems, negotiating with black-market dealers, or simply unwinding in a futuristic nightclub, Defrina’s life is shaped by the choices she makes. She sports a sleek, modular jacket that shifts with the latest tech trends, embedded with holo-displays that flash her ever-changing affiliations. Her deep violet hair, streaked with glowing circuits, frames a face that is both determined and enigmatic. Beneath her composed exterior, she harbors dreams of escaping the city's grip—whether that means forging her own empire or dismantling the systems that control it.",
+      "",
+      "Character 3 description goes here.",
+    ];
+
+    function showImage(index) {
+      images.forEach((img, i) => {
+        img.classList.toggle('active', i === index);
+      });
+      document.getElementById('image-title').textContent = titles[index];
+      document.getElementById('image-description').textContent = descriptions[index];
+      document.getElementById('selected-character-name').textContent = titles[index]; // Update the button text
+    }
+
+    function prevImage() {
+      currentIndex = (currentIndex - 1 + images.length) % images.length;
+      showImage(currentIndex);
+    }
+
+    function nextImage() {
+      currentIndex = (currentIndex + 1) % images.length;
+      showImage(currentIndex);
+    }
+
+    function playerChar() {
+      const selectedCharacter = {
+        name: titles[currentIndex],
+        directory: `/P.U.N.K/asset/${titles[currentIndex]}/`, // Save the character's directory
+        description: descriptions[currentIndex],
+      };
+
+      // Save the selected character to localStorage
+      localStorage.setItem("selectedCharacter", JSON.stringify(selectedCharacter));
+
+      // Redirect to game page
+      window.location.href = "game.html";
+    }
+  </script>
 </body>
 </html>

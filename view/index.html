@@ -33,6 +33,9 @@
 
     .carousel img.active {
       display: block;
+      margin-left: 160px;
+     
+      border-radius: 100px;
     }
 
     .carousel .arrow {
@@ -48,9 +51,10 @@
     }
 
     .description {
-      width: 50%;
+      width: 40%;
       color: white;
       font-family: 'Pixelify Sans', sans-serif;
+      margin-right: 160px;
     }
 
     .description h2 {
@@ -102,7 +106,7 @@
     <div class="carousel-container flex items-center justify-center gap-2 w-4xs mx-0 my-auto">
       <div class="carousel relative w-5xl flex items-center overflow-hidden">
         <span class="arrow left-20" onclick="playClickSound(); prevImage()"><</span>
-        <img src="/P.U.N.K/asset/Defrina/charselection.png" alt="Defrina" class="active">
+        <img src="../asset/Defrina/charselection.png" alt="Defrina" class="active">
         <img src="/P.U.N.K/asset/Windu/charselection.png" alt="Windu">
         <img src="/P.U.N.K/asset/Ale/charselection.png" alt="Ale">
         <span class="arrow right-20" onclick="playClickSound(); nextImage()">></span>
@@ -110,8 +114,10 @@
 
       <div class="description w-4xl text-white">
         <h2 id="image-title">Defrina</h2>
-        <p id="image-description">Defrina is a resourceful and street-smart survivor, navigating the neon-lit chaos of the city with ease. Born into a world of towering megacorporations and underground resistance networks, she has learned to adapt, making a name for herself in both legal and illicit circles. Whether she’s hacking into restricted systems, negotiating with black-market dealers, or simply unwinding in a futuristic nightclub, Defrina’s life is shaped by the choices she makes. She sports a sleek, modular jacket that shifts with the latest tech trends, embedded with holo-displays that flash her ever-changing affiliations. Her deep violet hair, streaked with glowing circuits, frames a face that is both determined and enigmatic. Beneath her composed exterior, she harbors dreams of escaping the city's grip—whether that means forging her own empire or dismantling the systems that control it.</p>
-      </div>
+        <p id="image-description">
+          Defrina is a clever and street-smart survivor in a neon-lit city ruled by megacorps. Known for her hacking skills and underground deals, she moves through both legal and illegal worlds with ease. With glowing violet hair and a modular tech-jacket, she hides dreams of breaking free—either by building her own empire or tearing the system down.
+        </p>
+              </div>
     </div>
 
     <!-- Play Button -->
@@ -120,20 +126,20 @@
     </button>
 
     <!-- Back Button -->
-    <div class="back-button" onclick="playClickSound(); goBack()">
-      &lt; BACK
+    <div class="back-button " onclick="playClickSound(); goBack()">
+      <p class="font-Pixelify-mono">&lt; BACK </p>
     </div>
   </div>
 
   <!-- Background Music -->
   <audio id="background-music" loop>
-    <source src="/P.U.N.K/asset/sound/menu.wav" type="audio/wav">
+    <source src="../asset/sound/menu.wav" type="audio/wav">
     Your browser does not support the audio element.
   </audio>
 
   <!-- Button Sound -->
   <audio id="click-sound">
-    <source src="/P.U.N.K/asset/sound/click.wav" type="audio/wav">
+    <source src="../asset/sound/click.wav" type="audio/wav">
     Your browser does not support the audio element.
   </audio>
 
@@ -181,8 +187,8 @@
     const images = document.querySelectorAll('.carousel img');
     const titles = ["Defrina", "Windu", "Ale"];
     const descriptions = [
-      "Defrina is a resourceful and street-smart survivor, navigating the neon-lit chaos of the city with ease. Born into a world of towering megacorporations and underground resistance networks, she has learned to adapt, making a name for herself in both legal and illicit circles. Whether she’s hacking into restricted systems, negotiating with black-market dealers, or simply unwinding in a futuristic nightclub, Defrina’s life is shaped by the choices she makes. She sports a sleek, modular jacket that shifts with the latest tech trends, embedded with holo-displays that flash her ever-changing affiliations. Her deep violet hair, streaked with glowing circuits, frames a face that is both determined and enigmatic. Beneath her composed exterior, she harbors dreams of escaping the city's grip—whether that means forging her own empire or dismantling the systems that control it.",
-      "",
+    "          Defrina is a clever and street-smart survivor in a neon-lit city ruled by megacorps. Known for her hacking skills and underground deals, she moves through both legal and illegal worlds with ease. With glowing violet hair and a modular tech-jacket, she hides dreams of breaking free—either by building her own empire or tearing the system down.",
+    "",
       "Character 3 description goes here.",
     ];
 

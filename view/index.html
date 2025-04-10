@@ -37,10 +37,10 @@
 
     .carousel img.active {
       display: block;
-      margin-left: 50px;
-      margin-right: 50px;
+      margin-left: 169px;
+      margin-right: 59px;
       position: relative; /* Ensure the image is positioned relative */
-      top: 20px; /* Adjust this value to lower the image */
+      top: 3px; /* Adjust this value to lower the image */
       border-radius: 100px;
     }
 
@@ -60,7 +60,7 @@
       width: 40%;
       color: white;
       font-family: 'Pixelify Sans', sans-serif;
-      margin-right: 160px;
+      margin-right: 365px;
     }
 
     .description h2 {
@@ -79,7 +79,7 @@
 
     .back-button {
       position: absolute;
-      top: 10%;
+      top: 6%;
       left: 5%;
       font-size: 1.5rem;
       color: white;
@@ -93,6 +93,7 @@
 
     .back-button:hover {
       background-color: rgba(255, 0, 0, 0.7);
+      cursor: url('../asset/cursor.png'), auto;
     }
 
     .game-title-container {
@@ -125,7 +126,7 @@
       left: 51%;
       transform: translate(-50%, -50%);
       font-family: 'Pixelify Sans', sans-serif;
-      font-size: 95; /* Adjust font size as needed */class="font-Pixelify-sans text-2xl text-white text-center">Indonesia Cyberpunk Experience</span>
+      font-size: 95;
       color: white;
       text-align: center;
       overflow: hidden;
@@ -137,17 +138,55 @@
       background: none;
       border: none;
       padding: 0;
-      cursor: pointer;
+      cursor: url('../asset/cursor.png'), auto;
       outline: none;
       display: flex;
       justify-content: center;
       align-items: center;
+      margin-top: 50px; /* Add this to increase the distance */
     }
 
     .start-button-gif {
-      
       width: 200px; /* Adjust the size of the button */
       height: auto; /* Maintain aspect ratio */
+    }
+
+    .play-button {
+      width: 300px; /* Adjust width */
+      height: 80px; /* Adjust height */
+      background-image: url('../asset/Button.png'); /* Path to your PNG */
+      background-size: 650PX; /* Ensure the image covers the button */
+      background-position-y: top; /* Adjust to position the image correctly */
+      background-position: center; /* Center the image */
+      background-repeat: no-repeat; /* Prevent tiling */
+      border: none; /* Remove default border */
+      cursor: pointer; /* Add pointer cursor */
+      color: white; /* Text color */
+      font-size: 18px; /* Adjust font size */
+      font-family: 'Pixelify Sans', sans-serif; /* Font style */
+      text-transform: uppercase; /* Uppercase text */
+      font-weight: bold; /* Bold text */
+      text-align: center; /* Center text horizontally */
+      line-height: 80px; /* Center text vertically */
+      transition: transform 0.2s ease, opacity 0.2s ease; /* Add hover effect */
+    }
+
+    .play-button:hover {
+      transform: scale(1.05); /* Slightly enlarge on hover */
+      opacity: 0.9; /* Slightly dim on hover */
+    }
+
+    .character-bg {
+    position: absolute;
+    width: 567px;
+    height: 526px;
+    background-image: url(../asset/Frame.png);
+    background-size: cover;
+    background-position: center;
+    z-index: -2;
+    border-radius: 20px;
+    margin-left: -425px;
+    margin-top: -50px;
     }
   </style>
 </head>
@@ -170,14 +209,14 @@
     </div>
 
     <div class="carousel-container flex items-center justify-center gap-2 w-4xs mx-0 my-auto">
+      <!-- Background Image -->
+      <div class="character-bg"></div>
+
       <div class="carousel relative w-5xl flex items-center overflow-hidden">
         <span class="arrow left-20" onclick="playClickSound(); prevImage()"><</span>
-        <div class="image-container">
-          <img src="../asset/frame.png" alt="Frame" class="frame">
-          <img src="../asset/Defrina/Defrina.png" alt="Defrina" class="active">
-          <img src="/P.U.N.K/asset/Binar/Char Select.png" alt="Binar" class="hidden">
-          <img src="/P.U.N.K/asset/Purpla/Char Select.png" alt="Purpla" class="hidden">
-        </div>
+        <img src="../asset/Defrina/Defrina.png" alt="Defrina" class="active">
+        <img src="/P.U.N.K/asset/Binar/Char Select.png" alt="Binar" class="hidden">
+        <img src="/P.U.N.K/asset/Purpla/Char Select.png" alt="Purpla" class="hidden">
         <span class="arrow right-20" onclick="playClickSound(); nextImage()">></span>
       </div>
 
@@ -186,11 +225,14 @@
         <p id="image-description">
           Defrina is a clever and street-smart survivor in a neon-lit city ruled by megacorps. Known for her hacking skills and underground deals, she moves through both legal and illegal worlds with ease. With glowing violet hair and a modular tech-jacket, she hides dreams of breaking free—either by building her own empire or tearing the system down.
         </p>
-              </div>
+      </div>
     </div>
 
     <!-- Play Button -->
-    <button class="font-Pixelify-mono bg-purple-800 text-white px-10 py-3 rounded hover:bg-red-700 hover:text-white transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50" onclick="playClickSound(); playerChar()">
+    <button
+      class="play-button"
+      onclick="playClickSound(); playerChar()"
+    >
       Play as <span id="selected-character-name">Defrina</span>
     </button>
 
@@ -233,21 +275,40 @@
     }
 
     function startGame() {
-      // Hide main screen and show the character selection
+      console.log("startGame function called"); // Debugging log
       document.body.classList.add('fading-out');
       setTimeout(() => {
-        document.querySelector('.game-title-container').classList.add('hidden'); // Hide the logo container
-        document.querySelector('button').classList.add('hidden'); // Hide the Start button
-        document.getElementById('character-selection').classList.remove('hidden'); // Show the character selection
+        const titleContainer = document.querySelector('.game-title-container');
+        const startButton = document.querySelector('.start-button');
+        const characterSelection = document.getElementById('character-selection');
+
+        console.log("Hiding title container and start button");
+        titleContainer.classList.add('hidden'); // Hide the logo container
+        startButton.classList.add('hidden'); // Hide the Start button
+        startButton.style.display = 'none'; // Force hide the Start button
+        console.log("Showing character selection");
+        characterSelection.classList.remove('hidden'); // Show the character selection
         document.body.classList.remove('fading-out');
       }, 500); // Match the fade-out duration
     }
 
     function goBack() {
-      // Hide the character selection and show the main screen
-      document.getElementById('character-selection').classList.add('hidden'); // Hide the character selection
-      document.querySelector('.game-title-container').classList.remove('hidden'); // Show the logo container
-      document.querySelector('button').classList.remove('hidden'); // Show the Start button
+      // Tambahkan efek fade out
+      document.body.classList.add('fading-out');
+
+      setTimeout(() => {
+        // Sembunyikan pemilihan karakter dan tampilkan layar utama
+        document.getElementById('character-selection').classList.add('hidden'); // Sembunyikan pemilihan karakter
+        const titleContainer = document.querySelector('.game-title-container');
+        const startButton = document.querySelector('.start-button');
+
+        titleContainer.classList.remove('hidden'); // Tampilkan logo container
+        startButton.classList.remove('hidden'); // Tampilkan tombol Start
+        startButton.style.display = 'flex'; // Pastikan tombol Start terlihat
+
+        // Hapus efek fade out setelah selesai
+        document.body.classList.remove('fading-out');
+      }, 500); // Durasi fade out (sesuai dengan CSS transition)
     }
 
     let currentIndex = 0;

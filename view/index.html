@@ -32,16 +32,16 @@
       height: auto;
       margin: 0 auto;
       border-radius: 20px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+      /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); */
     }
 
     .carousel img.active {
       display: block;
-      margin-left: 169px;
+      margin-left: 200px;
       margin-right: 59px;
       position: relative; /* Ensure the image is positioned relative */
       top: 3px; /* Adjust this value to lower the image */
-      border-radius: 100px;
+      /* border-radius: 100px; */
     }
 
     .carousel .arrow {
@@ -185,9 +185,15 @@
     background-position: center;
     z-index: -2;
     border-radius: 20px;
-    margin-left: -425px;
-    margin-top: -50px;
+    margin-left: -630px;
+    margin-top: 50px;
     }
+
+    .text-select{
+      margin-top: 20px;
+      margin-right: 50px;
+    }
+    
   </style>
 </head>
 <body class="flex flex-col items-center justify-center h-screen space-y-6 bg-cover bg-center bg-no-repeat" style="background-image: url('../asset/bg.jpg');">
@@ -229,11 +235,14 @@
     </div>
 
     <!-- Play Button -->
+     
     <button
       class="play-button"
       onclick="playClickSound(); playerChar()"
     >
-      Play as <span id="selected-character-name">Defrina</span>
+     <div class="text-select">
+    Play as <span id="selected-character-name">Defrina</span>
+  </div>
     </button>
 
     <!-- Back Button -->

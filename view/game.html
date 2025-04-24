@@ -1,192 +1,712 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Game</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&display=swap" rel="stylesheet">
-  <style>
-    body {
-      margin: 0;
-      font-family: "Pixelify Sans", sans-serif;
-      background-color: #f3f4f6;
-      height: 100vh;
-      position: relative;
-      overflow: hidden;
-      font-size: 0.75rem; 
-      cursor: alt('../assets/cursor.png'), auto;
-    }
-
-    #game-container {
-      position: absolute;
-      bottom: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      width: 100%;
-      background-color: #fbbf24;
-      border-radius: 10px 10px 0 0;
-      box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.1);
-      padding: 0.5rem; 
-    }
-
-    #left-panel {
-      margin-left: 20px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      width: 20%;
-    }
-
-    #left-panel img {
-      
-      width: 180px;
-      height: 180px;
-      /* border-radius: 50%; */
-      border: 2px solid #4b5563;
-      object-fit: cover;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    }
-
-    #stats {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 0.4rem;
-      width: 50%;
-    }
-
-    .stat {
-      display: grid;
-      grid-template-columns: 80px 1fr;
-      align-items: center;
-      padding: 0.25rem 0.5rem;
-      border-radius: 5px;
-      font-size: 0.75rem;
-    }
-
-    .stat-money {
-      display: grid;
-      grid-template-columns: 80px 1fr;
-      align-items: center;
-      background-color: #fff;
-      padding: 0.25rem 0.5rem;
-      border-radius: 5px;
-      width: 20%;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-      font-size: 0.75rem;
-    }
-
-    .progress-bar {
-      width: 100%;
-      height: 6px;
-      background-color: #e5e7eb;
-      border: 1px solid #000;
-      border-radius: 5px;
-      overflow: hidden;
-    }
-
-    .progress {
-      height: 100%;
-      background-color: #4caf50;
-      transition: width 0.3s ease;
-    }
-
-    #hp-bar { background-color: #ff0000; }
-    #energy-bar { background-color: #ffa500; }
-    #happiness-bar { background-color: #ffff00; }
-    #hunger-bar { background-color: #00ff00; }
-
-    #gamepad {
-  display: grid;
-  grid-template-areas:
-    ". up ."
-    "left center right"
-    ". down .";
-  column-gap: 2px;
-  row-gap: 5px;
-  width: 20%;
-  justify-items: center;
-  align-items: center;
-}
-
-
-    #gamepad button {
-      width: 60px;
-      height: 60px;
-      background-color: #4b5563;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      font-size: 0.75rem;
-      cursor: pointer;
-    }
-
-    #gamepad button:hover {
-      background-color: #1f2937;
-    }
-
-    #gamepad .up { grid-area: up; }
-    #gamepad .down { grid-area: down; }
-    #gamepad .left { grid-area: left; }
-    #gamepad .right { grid-area: right; }
-    #gamepad .center { grid-area: center; }
-  </style>
-  <script src="/P.U.N.K/mechanism/game.js"></script>
-  <script src="/P.U.N.K/mechanism/stat.js"></script>
+    <meta charset="UTF-8">
+    <title>P.U.N.K - Life Simulation</title>
+    <style>
+        canvas {
+            border: 3px solid red;
+            display: block;
+            margin: 0 auto;
+            image-rendering: -moz-crisp-edges;
+            image-rendering: -webkit-crisp-edges;
+            image-rendering: pixelated;
+            image-rendering: crisp-edges;
+        }
+        body {
+            background-color: #000;
+            margin: 0;
+            overflow: hidden;
+        }
+        #statBar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            background-color: rgba(0, 0, 0, 0.8);
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            box-sizing: border-box;
+            z-index: 1000;
+        }
+        .stat-container {
+            display: flex;
+            align-items: center;
+            margin-right: 20px;
+        }
+        .stat-icon {
+            width: 30px;
+            height: 30px;
+            margin-right: 5px;
+        }
+        .stat-value {
+            color: white;
+            font-family: Arial, sans-serif;
+            font-size: 16px;
+        }
+        #characterFrame {
+            width: 50px;
+            height: 50px;
+            margin-right: 20px;
+            border: 2px solid white;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        #characterFrame img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+    </style>
 </head>
 <body>
-  <div id="game-container">
-    <div id="left-panel">
-      <img src="" alt="Character">
+    <div id="statBar">
+        <div id="characterFrame">
+            <img id="characterIdle" src="" alt="Character">
+        </div>
+        <div class="stat-container">
+            <img class="stat-icon" src="asset/icon/hp.png" alt="HP">
+            <span class="stat-value" id="hpValue">100</span>
+        </div>
+        <div class="stat-container">
+            <img class="stat-icon" src="asset/icon/energy.png" alt="Energy">
+            <span class="stat-value" id="energyValue">100</span>
+        </div>
+        <div class="stat-container">
+            <img class="stat-icon" src="asset/icon/hunger.png" alt="Hunger">
+            <span class="stat-value" id="hungerValue">100</span>
+        </div>
+        <div class="stat-container">
+            <img class="stat-icon" src="asset/icon/money.png" alt="Money">
+            <span class="stat-value" id="moneyValue">0</span>
+        </div>
+        <div class="stat-container">
+            <img class="stat-icon" src="asset/icon/happiness.png" alt="Happiness">
+            <span class="stat-value" id="happinessValue">100</span>
+        </div>
     </div>
 
-    <div id="stats">
-      <div class="stat-money">
-        <span>Money</span>
-        <span id="money">Rp100,000</span>
-      </div>
+    <canvas id="gameCanvas"></canvas>
 
-      <div class="stat">
-        <span>HP</span>
-        <div class="progress-bar">
-          <div id="hp-bar" class="progress" style="width: 100%;"></div>
-        </div>
-      </div>
+    <audio src="/P.U.N.K/asset/sound/Machinations - ContextSensitive.wav" loop autoplay></audio>
 
-      <div class="stat">
-        <span>Energy</span>
-        <div class="progress-bar">
-          <div id="energy-bar" class="progress" style="width: 80%;"></div>
-        </div>
-      </div>
+    <script>
+        // Get selected character from localStorage
+        const selectedCharacter = JSON.parse(localStorage.getItem('selectedCharacter'));
+        console.log('Selected character:', selectedCharacter);
+        
+        // Stats initialization
+        const stats = {
+            hp: 100,
+            energy: 100,
+            hunger: 100,
+            money: 0,
+            happiness: 100
+        };
 
-      <div class="stat">
-        <span>Happiness</span>
-        <div class="progress-bar">
-          <div id="happiness-bar" class="progress" style="width: 60%;"></div>
-        </div>
-      </div>
+        // Update stats display
+        function updateStats() {
+            document.getElementById('hpValue').textContent = stats.hp;
+            document.getElementById('energyValue').textContent = stats.energy;
+            document.getElementById('hungerValue').textContent = stats.hunger;
+            document.getElementById('moneyValue').textContent = stats.money;
+            document.getElementById('happinessValue').textContent = stats.happiness;
+        }
 
-      <div class="stat">
-        <span>Hunger</span>
-        <div class="progress-bar">
-          <div id="hunger-bar" class="progress" style="width: 40%;"></div>
-        </div>
-      </div>
-    </div>
+        // Set character idle animation
+        const characterIdle = document.getElementById('characterIdle');
+        characterIdle.src = `${selectedCharacter.directory}idle.gif`;
 
-    <div id="gamepad">
-      <button class="up">↑</button>
-      <button class="left">←</button>
-      <button class="center">●</button>
-      <button class="right">→</button>
-      <button class="down">↓</button>
-    </div>
-  </div>
+        // Stats update interval (every 5 seconds)
+        setInterval(() => {
+            // Decrease stats over time
+            stats.energy = Math.max(0, stats.energy - 1);
+            stats.hunger = Math.max(0, stats.hunger - 2);
+            stats.happiness = Math.max(0, stats.happiness - 1);
+            
+            // Update HP based on other stats
+            if (stats.energy < 20 || stats.hunger < 20) {
+                stats.hp = Math.max(0, stats.hp - 1);
+            }
+            
+            updateStats();
+        }, 5000);
+
+        // Initial stats update
+        updateStats();
+        
+        // Canvas setup
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        
+        // Set canvas size to window size
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        // Add these variables at the top of your script, after canvas setup
+        const keys = {
+            ArrowUp: false,
+            ArrowDown: false,
+            ArrowLeft: false,
+            ArrowRight: false,
+            w: false,
+            s: false,
+            a: false,
+            d: false
+        };
+
+        // Add after canvas setup
+        const camera = {
+            x: 0,
+            y: 0,
+            width: canvas.width,
+            height: canvas.height,
+            zoom: 2  // Increased zoom for larger map view
+        };
+
+        // Add map scale configuration
+        const MAP_SCALE = 2; // Adjust this value to change map size
+
+        // Add after camera setup
+        const TILE_SIZE = 16; // Base tile size before scaling
+
+        // Add collision map configuration
+        const collisionMap = {
+            tiles: [], // Will store collision data
+            width: 0,
+            height: 0
+        };
+        
+        let currentScene = 'map'; // 'map' or 'room'
+        let roomImage = new Image();
+        roomImage.src = '/P.U.N.K/asset/Location/room.png'; // Example room image
+
+        const ROOM_POSITION = {
+          x: 15, // Changed from 20 to better fit within a 29x29 map
+          y: 5   // Changed from 10 to better fit within a 29x29 map
+        };
+
+        // Character class with fixed movement
+        class Character {
+            constructor(x, y) {
+                this.x = x;
+                this.y = y;
+                this.width = 30;
+                this.height = 30;
+                this.speed = 2.5;
+                this.direction = 'down';
+                this.frameCount = 0;
+                this.animationSpeed = 2;
+                this.isMoving = false;
+                
+                // Sprites setup
+                this.sprites = {
+                    up: [new Image(), new Image()],
+                    down: [new Image(), new Image()],
+                    left: [new Image(), new Image()],
+                    right: [new Image(), new Image()]
+                };
+
+                // Load sprites and log for debugging
+                Object.keys(this.sprites).forEach(direction => {
+                    this.sprites[direction][0].src = `${selectedCharacter.directory}${direction}1.png`;
+                    this.sprites[direction][1].src = `${selectedCharacter.directory}${direction}2.png`;
+                    console.log(`Loading sprite: ${this.sprites[direction][0].src}`);
+                });
+
+                this.currentSprite = this.sprites.down[0];
+            }
+
+            draw() {
+                if (this.isMoving) {
+                    this.frameCount++;
+                    const frameIndex = Math.floor(this.frameCount / this.animationSpeed) % 2;
+                    this.currentSprite = this.sprites[this.direction][frameIndex];
+                } else {
+                    this.currentSprite = this.sprites[this.direction][0];
+                    this.frameCount = 0;
+                }
+
+                ctx.drawImage(this.currentSprite, this.x, this.y, this.width, this.height);
+            }
+
+            move(dx, dy) {
+                if (dx === 0 && dy === 0) {
+                    this.isMoving = false;
+                    return;
+                }
+
+                // Calculate next position
+                const nextX = this.x + dx * this.speed;
+                const nextY = this.y + dy * this.speed;
+
+                // Check collision before moving
+                if (!this.checkCollision(nextX, nextY)) {
+                    this.x = nextX;
+                    this.y = nextY;
+                    this.isMoving = true;
+
+                    // Update direction
+                    if (dx < 0) this.direction = 'left';
+                    else if (dx > 0) this.direction = 'right';
+                    else if (dy < 0) this.direction = 'up';
+                    else if (dy > 0) this.direction = 'down';
+                }
+            }
+
+            checkCollision(nextX, nextY) {
+                // Calculate the character's bounding box
+                const charLeft = nextX;
+                const charRight = nextX + this.width;
+                const charTop = nextY;
+                const charBottom = nextY + this.height;
+                
+                // Convert to tile coordinates
+                const tileLeft = Math.floor(charLeft / (TILE_SIZE * MAP_SCALE));
+                const tileRight = Math.floor((charRight - 1) / (TILE_SIZE * MAP_SCALE)); // Subtract 1 to avoid rounding up
+                const tileTop = Math.floor(charTop / (TILE_SIZE * MAP_SCALE));
+                const tileBottom = Math.floor((charBottom - 1) / (TILE_SIZE * MAP_SCALE)); // Subtract 1 to avoid rounding up
+                
+                // Check if character is outside map boundaries
+                if (tileLeft < 0 || tileTop < 0 || 
+                    tileRight >= collisionMap.width || 
+                    tileBottom >= collisionMap.height) {
+                    return true; // Collide with map boundaries
+                }
+                
+                // Create a smaller hitbox for the character (80% of original size)
+                // This creates a buffer zone allowing the character to squeeze through narrow passages
+                const hitboxReduction = 0.2; // 20% reduction
+                const hitboxLeft = nextX + (this.width * hitboxReduction / 2);
+                const hitboxRight = nextX + this.width - (this.width * hitboxReduction / 2);
+                const hitboxTop = nextY + (this.height * hitboxReduction / 2);
+                const hitboxBottom = nextY + this.height - (this.height * hitboxReduction / 2);
+                
+                // Convert hitbox to tile coordinates
+                const hitboxTileLeft = Math.floor(hitboxLeft / (TILE_SIZE * MAP_SCALE));
+                const hitboxTileRight = Math.floor(hitboxRight / (TILE_SIZE * MAP_SCALE));
+                const hitboxTileTop = Math.floor(hitboxTop / (TILE_SIZE * MAP_SCALE));
+                const hitboxTileBottom = Math.floor(hitboxBottom / (TILE_SIZE * MAP_SCALE));
+                
+                // Check each tile the hitbox occupies
+                for (let y = hitboxTileTop; y <= hitboxTileBottom; y++) {
+                    for (let x = hitboxTileLeft; x <= hitboxTileRight; x++) {
+                        if (collisionMap.tiles[y * collisionMap.width + x] === 1) {
+                            return true; // Collision detected
+                        }
+                    }
+                }
+                
+                return false; // No collision
+            }
+        }
+
+        // Initialize game
+        const mapImage = new Image();
+        mapImage.src = '/P.U.N.K/asset/Location/map.png';
+
+        let player; // Declare player variable
+
+        // Start game when map is loaded
+        mapImage.onload = () => {
+            console.log('Map loaded successfully');
+            console.log('Map dimensions:', mapImage.width, mapImage.height);
+            
+            // Initialize collision map dimensions
+            collisionMap.width = Math.floor(mapImage.width / TILE_SIZE);
+            collisionMap.height = Math.floor(mapImage.height / TILE_SIZE);
+            console.log('Collision map dimensions:', collisionMap.width, collisionMap.height);
+            
+            // Create collision map (example - you'll need to customize this)
+            createCollisionMap();
+            
+            // Create player after map is loaded
+            player = new Character(
+                13 * TILE_SIZE * MAP_SCALE, // X position: tile 13
+                20 * TILE_SIZE * MAP_SCALE  // Y position: tile 20
+            );
+            
+            console.log('Player spawned at:', player.x, player.y);
+            
+            // Add error handling for game loop
+            try {
+                requestAnimationFrame(gameLoop);
+                console.log('Game loop started successfully');
+            } catch (error) {
+                console.error('Error starting game loop:', error);
+            }
+        };
+
+        // Add collision map creation function
+        function createCollisionMap() {
+            // Initialize empty collision map
+            const totalTiles = collisionMap.width * collisionMap.height;
+            collisionMap.tiles = new Array(totalTiles).fill(0);
+
+            // Example: Add some collision tiles (customize this based on your map)
+            // 1 = solid/collision, 0 = walkable
+            
+            // Example: Adding border collision
+            for (let x = 0; x < collisionMap.width; x++) {
+                // Top and bottom borders
+                collisionMap.tiles[x] = 1;
+                collisionMap.tiles[(collisionMap.height - 1) * collisionMap.width + x] = 1;
+            }
+            for (let y = 0; y < collisionMap.height; y++) {
+                // Left and right borders
+                collisionMap.tiles[y * collisionMap.width] = 1;
+                collisionMap.tiles[y * collisionMap.width + (collisionMap.width - 1)] = 1;
+            }
+
+            // Add new collision blocks at y=15, x=2 and x=3, and a row at y=2
+            const collisionBlocks = [
+                // Existing blocks
+                { x: 2, y: 15, width: 1, height: 1 },
+                { x: 3, y: 15, width: 1, height: 1 },
+                // Row at y=2
+                { x: 0, y: 2, width: collisionMap.width, height: 1 },
+                // Row from x8 to x29 at y28
+                { x: 8, y: 28, width: 22, height: 1 },
+                // New vertical block at x11 from y5 to y17
+                { x: 11, y: 5,  width: 1, height: 12 }, // height is 13 because 17 - 5 + 1 = 13 blocks
+                { x: 5,  y: 17, width: 6, height: 1 }, // Added new block
+                { x: 3, y: 17, width: 1, height: 1},
+                { x: 6,  y: 5,  width: 6, height: 1},
+                { x: 6,  y: 18, width: 3, height:1},
+                { x: 15, y: 15, width: 9, height: 1},
+                { x: 16, y: 14, width: 14, height: 1},
+                { x: 21, y: 22, width: 1, height: 1},
+                { x: 26, y: 22, width: 2, height: 2},
+                { x: 25, y: 23, width: 1, height: 1},
+                { x: 27, y: 15, width: 2, height: 4},
+                { x: 4, y: 27, width: 1, height: 1},
+                {x: 4, y: 16, width: 1, height: 1},
+                { x: 6, y: 27, width: 2, height: 1},
+                { x: 15, y: 27, width: 1, height: 1},
+                { x: 18, y: 26, width: 1, height: 1},
+                { x: 20, y: 27, width: 1, height: 1},
+                { x: 25, y: 27, width: 1, height: 1},
+                { x: 8, y: 26, width: 7, height: 1},
+                { x: 9, y: 3, width: 2, height: 1},
+                { x: 14, y: 3, width: 5, height: 1},
+                { x: 21, y: 3, width: 1, height: 1},
+                { x: 24, y: 6, width: 1, height: 1},
+                { x: 27, y: 6, width: 1, height: 1},
+                { x: 16, y: 7, width: 1, height: 1},
+                { x: 19, y: 7, width: 1, height: 1},
+                { x: 18, y: 10, width: 2, height: 1},
+                { x: 16, y: 11, width: 13, height: 3},
+                { x: 22, y: 8, width: 7, height: 3},
+                { x: 16, y: 16, width: 6, height: 1},
+                { x: 16, y: 17, width: 5, height: 1},
+                { x: 24, y: 16, width: 1, height: 2},
+                { x: 22, y: 17, width: 1, height: 1},
+                { x: 25, y: 18, width: 1, height: 2},
+                { x: 26, y: 19, width: 1, height: 1},
+                { x: 15, y: 18, width: 1, height: 1},
+                { x: 8, y: 25, width: 1, height: 1},
+                { x: 14, y: 25, width: 1, height: 1},
+                { x: 4, y: 23, width: 1, height: 1},
+                { x: 6, y: 23, width: 1, height: 1},
+                { x: 2, y: 24, width: 1, height: 1},
+                { x: 3, y: 16, width: 1, height: 1},
+                { x: 1, y: 15, width: 1, height: 1},
+                
+            ];
+
+            // Add collision blocks to the map
+            collisionBlocks.forEach(block => {
+                for (let y = block.y; y < block.y + block.height; y++) {
+                    for (let x = block.x; x < block.x + block.width; x++) {
+                        collisionMap.tiles[y * collisionMap.width + x] = 1;
+                    }
+                }
+            });
+
+            // Add your custom collision areas here
+            // Example: Adding a building
+            const building = {
+              x: 5,
+              y: 3,
+              width: 1,
+              height: 15 // Added height property
+            };
+
+            for (let y = building.y; y < building.y + building.height; y++) {
+                for (let x = building.x; x < building.x + building.width; x++) {
+                    collisionMap.tiles[y * collisionMap.width + x] = 1;
+                }
+            }
+        }
+
+        // Add this to gameLoop for debugging collision map
+        function drawCollisionMap() {
+            // Draw grid
+            ctx.globalAlpha = 0.2;
+            ctx.strokeStyle = 'white';
+            
+            // Set text properties for grid coordinates
+            ctx.font = '10px Arial';
+            ctx.fillStyle = 'yellow';
+            ctx.globalAlpha = 1;
+            
+            // Draw grid and coordinates
+            for (let y = 0; y < collisionMap.height; y++) {
+                for (let x = 0; x < collisionMap.width; x++) {
+                    // Draw grid cell
+                    ctx.strokeRect(
+                        x * TILE_SIZE * MAP_SCALE,
+                        y * TILE_SIZE * MAP_SCALE,
+                        TILE_SIZE * MAP_SCALE,
+                        TILE_SIZE * MAP_SCALE
+                    );
+                    
+                    // Draw coordinates in each cell
+                    ctx.fillText(
+                        `${x},${y}`,
+                        x * TILE_SIZE * MAP_SCALE + 2,
+                        y * TILE_SIZE * MAP_SCALE + 12
+                    );
+                    
+                    // Draw collision areas
+                    if (collisionMap.tiles[y * collisionMap.width + x] === 1) {
+                        ctx.fillStyle = 'rgba(255, 0, 0, 0.3)';
+                        ctx.fillRect(
+                            x * TILE_SIZE * MAP_SCALE,
+                            y * TILE_SIZE * MAP_SCALE,
+                            TILE_SIZE * MAP_SCALE,
+                            TILE_SIZE * MAP_SCALE
+                        );
+                        ctx.fillStyle = 'yellow'; // Reset fill style for coordinates
+                    }
+                }
+            }
+            
+            ctx.globalAlpha = 1;
+        }
+
+        // Event listeners
+        window.addEventListener('keydown', (e) => {
+            if (keys.hasOwnProperty(e.key)) {
+                keys[e.key] = true;
+                e.preventDefault();
+            }
+        });
+
+        window.addEventListener('keyup', (e) => {
+            if (keys.hasOwnProperty(e.key)) {
+                keys[e.key] = false;
+                e.preventDefault();
+            }
+        });
+
+        function teleportToRoom() {
+          // Change scene first
+          currentScene = 'room';
+          
+          // Make sure roomImage is loaded
+          if (!roomImage.complete) {
+              console.log('Room image not loaded yet, waiting...');
+              roomImage.onload = function() {
+                  console.log('Room image loaded');
+                  completeRoomSetup();
+              };
+          } else {
+              completeRoomSetup();
+          }
+          function completeRoomSetup() {
+              // Set player position WITHIN the room
+              // Position the player near the door or entrance (adjustable)
+              player.x = (ROOM_POSITION.x * TILE_SIZE * MAP_SCALE) + (2 * TILE_SIZE * MAP_SCALE);  
+              player.y = (ROOM_POSITION.y * TILE_SIZE * MAP_SCALE) + (4 * TILE_SIZE * MAP_SCALE);
+              
+              // Create room collision map
+              createRoomCollisionMap();
+              
+              console.log('Teleported to room at position:', player.x, player.y);
+          }
+       }
+
+       function teleportToMap() {
+            // Set coordinates for return position (adjacent to the room entrance)
+            player.x = 5 * TILE_SIZE * MAP_SCALE;
+            player.y = 17 * TILE_SIZE * MAP_SCALE;
+            
+            // Change scene back to map
+            currentScene = 'map';
+            
+            // Restore main map collision
+            createCollisionMap();
+            
+            console.log('Teleported back to map');
+        }
+
+        function createRoomCollisionMap() {
+        // Calculate room dimensions based on the image
+        const roomWidthTiles = Math.ceil(roomImage.width / TILE_SIZE);
+        const roomHeightTiles = Math.ceil(roomImage.height / TILE_SIZE);
+        
+        // Set collision map dimensions for the room
+        collisionMap.width = 29; // Keep map size consistent 
+        collisionMap.height = 29; // Keep map size consistent
+        collisionMap.tiles = new Array(collisionMap.width * collisionMap.height).fill(0); // Clear all collision
+        
+        // Add walls around the room
+        for (let x = ROOM_POSITION.x; x < ROOM_POSITION.x + roomWidthTiles; x++) {
+            // Top and bottom walls
+            if (x >= 0 && x < collisionMap.width) {
+                // Top wall
+                if (ROOM_POSITION.y >= 0 && ROOM_POSITION.y < collisionMap.height) {
+                    collisionMap.tiles[ROOM_POSITION.y * collisionMap.width + x] = 1;
+                }
+                
+                // Bottom wall
+                const bottomY = ROOM_POSITION.y + roomHeightTiles - 1;
+                if (bottomY >= 0 && bottomY < collisionMap.height) {
+                    collisionMap.tiles[bottomY * collisionMap.width + x] = 1;
+                }
+            }
+        }
+        
+        for (let y = ROOM_POSITION.y; y < ROOM_POSITION.y + roomHeightTiles; y++) {
+            // Left and right walls
+            if (y >= 0 && y < collisionMap.height) {
+                // Left wall
+                if (ROOM_POSITION.x >= 0 && ROOM_POSITION.x < collisionMap.width) {
+                    collisionMap.tiles[y * collisionMap.width + ROOM_POSITION.x] = 1;
+                }
+                
+                // Right wall
+                const rightX = ROOM_POSITION.x + roomWidthTiles - 1;
+                if (rightX >= 0 && rightX < collisionMap.width) {
+                    collisionMap.tiles[y * collisionMap.width + rightX] = 1;
+                }
+            }
+        }
+        
+        // Add furniture collision based on room layout
+        // These are examples - adjust based on your room image
+        const roomFurniture = [
+            // Format: {x, y, width, height} relative to room position
+            { x: 2, y: 2, width: 2, height: 1 },  // Bed
+            { x: 5, y: 2, width: 1, height: 1 },  // Desk
+            { x: 7, y: 2, width: 2, height: 1 },  // Computer
+            { x: 10, y: 1, width: 1, height: 2 }  // Cabinet
+        ];
+        
+        // Add furniture collision
+        roomFurniture.forEach(furniture => {
+            const worldX = ROOM_POSITION.x + furniture.x;
+            const worldY = ROOM_POSITION.y + furniture.y;
+            
+            for (let y = 0; y < furniture.height; y++) {
+                for (let x = 0; x < furniture.width; x++) {
+                    const mapX = worldX + x;
+                    const mapY = worldY + y;
+                    
+                    if (mapX >= 0 && mapX < collisionMap.width && 
+                        mapY >= 0 && mapY < collisionMap.height) {
+                        collisionMap.tiles[mapY * collisionMap.width + mapX] = 1;
+                    }
+                }
+            }
+        });
+        
+        // Add door for exiting (mark it with value 2)
+        const doorX = ROOM_POSITION.x + 2; // Adjust door position as needed
+        const doorY = ROOM_POSITION.y + roomHeightTiles - 1; // Bottom wall
+        
+        if (doorX >= 0 && doorX < collisionMap.width && 
+            doorY >= 0 && doorY < collisionMap.height) {
+            collisionMap.tiles[doorY * collisionMap.width + doorX] = 2; // Door = 2
+        }
+    }
+
+
+        // Game initialization and loop
+        let lastTime = 0;
+        function gameLoop(timestamp) {
+            // Get current player tile position
+            const playerTileX = Math.floor(player.x / (TILE_SIZE * MAP_SCALE));
+            const playerTileY = Math.floor(player.y / (TILE_SIZE * MAP_SCALE));
+
+            // Check for teleport triggers
+            if (currentScene === 'map' && playerTileX === 4 && playerTileY === 17) {
+                teleportToRoom();
+            }
+            
+            // Check if player is at door position in room (for exit)
+            if (currentScene === 'room') {
+                const tileIndex = playerTileY * collisionMap.width + playerTileX;
+                if (collisionMap.tiles[tileIndex] === 2) { // 2 = door
+                    teleportToMap();
+                }
+            }
+
+            // Calculate delta time
+            const deltaTime = timestamp - lastTime;
+            lastTime = timestamp;
+
+            // Clear canvas
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // Update camera position to follow player
+            camera.x = player.x - camera.width / (2 * camera.zoom);
+            camera.y = player.y - camera.height / (2 * camera.zoom);
+            
+            // Save current context state
+            ctx.save();
+            
+            // Apply camera transformations
+            ctx.scale(camera.zoom, camera.zoom);
+            ctx.translate(-camera.x, -camera.y);
+            
+            // Draw current scene
+            if (currentScene === 'map') {
+                // Draw main map
+                ctx.drawImage(
+                    mapImage, 
+                    0, 0, 
+                    mapImage.width * MAP_SCALE, 
+                    mapImage.height * MAP_SCALE
+                );
+            } else if (currentScene === 'room') {
+                // Draw room
+                ctx.drawImage(
+                    roomImage,
+                    20 * TILE_SIZE * MAP_SCALE, // X position
+                    10 * TILE_SIZE * MAP_SCALE, // Y position
+                    roomImage.width * MAP_SCALE,
+                    roomImage.height * MAP_SCALE
+                );
+            }
+            
+            // Draw collision map for debugging
+            drawCollisionMap();
+            
+            // Draw player
+            player.draw();
+            
+            // Restore context state
+            ctx.restore();
+
+            // Handle movement
+            let dx = 0;
+            let dy = 0;
+            
+            // Arrow keys and WASD
+            if (keys.ArrowLeft || keys.a) dx -= 1;
+            if (keys.ArrowRight || keys.d) dx += 1;
+            if (keys.ArrowUp || keys.w) dy -= 1;
+            if (keys.ArrowDown || keys.s) dy += 1;
+            
+            // Update player
+            player.move(dx, dy);
+
+            requestAnimationFrame(gameLoop);
+        }
+    </script>
 </body>
 </html>

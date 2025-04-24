@@ -1,0 +1,216 @@
+body {
+  opacity: 0; 
+  transition: opacity 0.5s ease-in-out; 
+  cursor: url('../asset/cursor.png'), auto; /* Custom cursor */
+}
+
+body.loaded {
+  opacity: 1; 
+}
+
+body.fading-out {
+  opacity: 0;
+}
+
+.hidden {
+  display: none;
+}
+
+.carousel img {
+  display: none;
+  width: 100%;
+  height: auto;
+  margin: 0 auto;
+  border-radius: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+}
+
+.carousel img.active {
+  display: block;
+  margin-left: 169px;
+  margin-right: 59px;
+  position: relative; /* Ensure the image is positioned relative */
+  top: 3px; /* Adjust this value to lower the image */
+  border-radius: 100px;
+}
+
+.carousel .arrow {
+  position: fixed;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 2rem;
+  color: white;
+  padding: 10px;
+  cursor: pointer;
+  user-select: none;
+  z-index: 1000;
+}
+
+.description {
+width: 40%;
+color: white;
+font-family: 'Pixelify Sans', sans-serif;
+margin-right: 365px;
+background-image: url(/P.U.N.K/asset/desc.png);
+background-position: center;
+background-size: 250% 200%;
+padding: 22px 33px;
+border-radius: 16px;
+position: relative;
+box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+background-position: top;
+background-position-x: -350px;
+}
+
+/* Add hover effect */
+.description:hover {
+  transform: scale(1.02);
+  transition: transform 0.3s ease;
+}
+
+/* Style the title inside description */
+.description h2 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Add text shadow for better readability */
+}
+
+/* Style the paragraph inside description */
+.description p {
+  font-size: 1.25rem;
+  line-height: 1.5;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5); /* Add text shadow for better readability */
+}
+
+button{
+  cursor: url('../asset/cursor.png'), auto; /* Custom cursor */
+}
+
+.back-button {
+  position: absolute;
+  top: 6%;
+  left: 5%;
+  font-size: 1.5rem;
+  color: white;
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  user-select: none;
+  z-index: 1000;
+}
+
+.back-button:hover {
+  background-color: rgba(255, 0, 0, 0.7);
+  cursor: url('../asset/cursor.png'), auto;
+}
+
+.game-title-container {
+  position: relative;
+  width: 500px; /* Adjust based on the frame's width */
+  height: 200px; /* Adjust based on the frame's height */
+  margin: 0 auto; /* Center the frame horizontally */
+}
+
+.game-frame {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.game-title {
+  position: absolute;
+  top: 35%; /* Adjust to position the title */
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: 'Pixelify Sans', sans-serif;
+  font-size: 200; /* Adjust font size as needed */
+  color: white;
+  text-align: center;
+}
+
+.game-subtitle {
+  position: absolute;
+  top: 87%; /* Adjust to position the subtitle */
+  left: 51%;
+  transform: translate(-50%, -50%);
+  font-family: 'Pixelify Sans', sans-serif;
+  font-size: 95;
+  color: white;
+  text-align: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.start-button {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: url('../asset/cursor.png'), auto;
+  outline: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 50px; /* Add this to increase the distance */
+}
+
+.start-button-gif {
+  width: 200px; /* Adjust the size of the button */
+  height: auto; /* Maintain aspect ratio */
+}
+
+.play-button {
+width: 431px;
+height: 80px;
+background-image: url(../asset/Button.png);
+background-size: 500px;
+background-position: left;
+background-repeat: no-repeat;
+border: none;
+cursor: pointer;
+color: white;
+font-size: 18px;
+font-family: 'Pixelify Sans', sans-serif;
+text-transform: uppercase;
+font-weight: bold;
+text-align: center;
+line-height: 121px;
+transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.play-button:hover {
+  transform: scale(1.05); /* Slightly enlarge on hover */
+  opacity: 0.9; /* Slightly dim on hover */
+}
+
+.character-bg {
+position: absolute;
+width: 773px;
+height: 550px;
+background-image: url(../asset/Frame.png);
+background-size: cover;
+background-position: center;
+z-index: -2;
+border-radius: 60px;
+margin-left: -490px;
+margin-top: 130px;
+}
+
+#music-control {
+  width: 50px; /* Adjust size */
+  height: 50px;
+  background-image: url('../asset/music-on.png'); /* Default image for music ON */
+  background-size: 45px;
+  background-position: center;
+  border: none;
+  cursor: pointer;
+  position: absolute;
+  top: 10px; /* Adjust position */
+  right: 10px; /* Adjust position */
+  z-index: 1000;
+}
+
+#music-control.music-off {
+  background-image: url('../asset/music-off.png'); /* Image for music OFF */
+}

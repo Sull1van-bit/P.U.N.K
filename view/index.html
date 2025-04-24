@@ -2,199 +2,13 @@
 <html>
 <head>
   <meta charset="UTF-8">
+  <title>P.U.N.K</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&display=swap" rel="stylesheet">
   <link href="style.css" rel="stylesheet">
-  <style>
-    body {
-      opacity: 0; 
-      transition: opacity 0.5s ease-in-out; 
-      cursor: url('../asset/cursor.png'), auto; /* Custom cursor */
-    }
-
-    body.loaded {
-      opacity: 1; 
-    }
-
-    body.fading-out {
-      opacity: 0;
-    }
-
-    .hidden {
-      display: none;
-    }
-
-    .carousel img {
-      display: none;
-      width: 100%;
-      height: auto;
-      margin: 0 auto;
-      border-radius: 20px;
-      /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); */
-    }
-
-    .carousel img.active {
-      display: block;
-      margin-left: 200px;
-      margin-right: 59px;
-      position: relative; /* Ensure the image is positioned relative */
-      top: 3px; /* Adjust this value to lower the image */
-      /* border-radius: 100px; */
-    }
-
-    .carousel .arrow {
-      position: fixed;
-      top: 50%;
-      transform: translateY(-50%);
-      font-size: 2rem;
-      color: white;
-      padding: 10px;
-      cursor: pointer;
-      user-select: none;
-      z-index: 1000;
-    }
-
-    .description {
-      width: 40%;
-      color: white;
-      font-family: 'Pixelify Sans', sans-serif;
-      margin-right: 365px;
-    }
-
-    .description h2 {
-      font-size: 2rem;
-      margin-bottom: 1rem;
-    }
-
-    .description p {
-      font-size: 1.25rem;
-      line-height: 1.5;
-    }
-
-    button{
-      cursor: url('../asset/cursor.png'), auto; /* Custom cursor */
-    }
-
-    .back-button {
-      position: absolute;
-      top: 6%;
-      left: 5%;
-      font-size: 1.5rem;
-      color: white;
-      background-color: rgba(0, 0, 0, 0.5);
-      padding: 10px 20px;
-      border-radius: 5px;
-      cursor: pointer;
-      user-select: none;
-      z-index: 1000;
-    }
-
-    .back-button:hover {
-      background-color: rgba(255, 0, 0, 0.7);
-      cursor: url('../asset/cursor.png'), auto;
-    }
-
-    .game-title-container {
-      position: relative;
-      width: 500px; /* Adjust based on the frame's width */
-      height: 200px; /* Adjust based on the frame's height */
-      margin: 0 auto; /* Center the frame horizontally */
-    }
-
-    .game-frame {
-      width: 100%;
-      height: 100%;
-      display: block;
-    }
-
-    .game-title {
-      position: absolute;
-      top: 35%; /* Adjust to position the title */
-      left: 50%;
-      transform: translate(-50%, -50%);
-      font-family: 'Pixelify Sans', sans-serif;
-      font-size: 200; /* Adjust font size as needed */
-      color: white;
-      text-align: center;
-    }
-
-    .game-subtitle {
-      position: absolute;
-      top: 87%; /* Adjust to position the subtitle */
-      left: 51%;
-      transform: translate(-50%, -50%);
-      font-family: 'Pixelify Sans', sans-serif;
-      font-size: 95;
-      color: white;
-      text-align: center;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-
-    .start-button {
-      background: none;
-      border: none;
-      padding: 0;
-      cursor: url('../asset/cursor.png'), auto;
-      outline: none;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      margin-top: 50px; /* Add this to increase the distance */
-    }
-
-    .start-button-gif {
-      width: 200px; /* Adjust the size of the button */
-      height: auto; /* Maintain aspect ratio */
-    }
-
-    .play-button {
-      width: 300px; /* Adjust width */
-      height: 80px; /* Adjust height */
-      background-image: url('../asset/Button.png'); /* Path to your PNG */
-      background-size: 650PX; /* Ensure the image covers the button */
-      background-position-y: top; /* Adjust to position the image correctly */
-      background-position: center; /* Center the image */
-      background-repeat: no-repeat; /* Prevent tiling */
-      border: none; /* Remove default border */
-      cursor: pointer; /* Add pointer cursor */
-      color: white; /* Text color */
-      font-size: 18px; /* Adjust font size */
-      font-family: 'Pixelify Sans', sans-serif; /* Font style */
-      text-transform: uppercase; /* Uppercase text */
-      font-weight: bold; /* Bold text */
-      text-align: center; /* Center text horizontally */
-      line-height: 80px; /* Center text vertically */
-      transition: transform 0.2s ease, opacity 0.2s ease; /* Add hover effect */
-    }
-
-    .play-button:hover {
-      transform: scale(1.05); /* Slightly enlarge on hover */
-      opacity: 0.9; /* Slightly dim on hover */
-    }
-
-    .character-bg {
-    position: absolute;
-    width: 567px;
-    height: 526px;
-    background-image: url(../asset/Frame.png);
-    background-size: cover;
-    background-position: center;
-    z-index: -2;
-    border-radius: 20px;
-    margin-left: -630px;
-    margin-top: 50px;
-    }
-
-    .text-select{
-      margin-top: 20px;
-      margin-right: 50px;
-    }
-    
-  </style>
+  <link href="/P.U.N.K/CSS file/index.css" rel="stylesheet">
 </head>
 <body class="flex flex-col items-center justify-center h-screen space-y-6 bg-cover bg-center bg-no-repeat" style="background-image: url('../asset/bg.jpg');">
   <div class="game-title-container">
@@ -235,14 +49,11 @@
     </div>
 
     <!-- Play Button -->
-     
     <button
       class="play-button"
       onclick="playClickSound(); playerChar()"
     >
-     <div class="text-select">
-    Play as <span id="selected-character-name">Defrina</span>
-  </div>
+      Play as <span id="selected-character-name">Defrina</span>
     </button>
 
     <!-- Back Button -->
@@ -252,10 +63,12 @@
   </div>
 
   <!-- Background Music -->
-  <audio id="background-music" loop>
+  <audio id="background-music" loop autoplay>
     <source src="../asset/sound/menu.wav" type="audio/wav">
-    Your browser does not support the audio element.
   </audio>
+
+  <!-- Custom Music Control Button -->
+  <button id="music-control" onclick="toggleMusic()"></button>
 
   <!-- Button Sound -->
   <audio id="click-sound">
@@ -263,106 +76,6 @@
     Your browser does not support the audio element.
   </audio>
 
-  <script>
-    window.addEventListener('load', () => {
-      document.body.classList.add('loaded');
-
-      // BG Music
-      const music = document.getElementById('background-music');
-      music.volume = 0.5;
-      music.play().catch(error => {
-        console.log('Music playback failed:', error);
-      });
-    });
-
-    function playClickSound() {
-      const clickSound = document.getElementById('click-sound');
-      clickSound.currentTime = 0; // Restart Button sound
-      clickSound.play().catch(error => {
-        console.log('Click sound playback failed:', error);
-      });
-    }
-
-    function startGame() {
-      console.log("startGame function called"); // Debugging log
-      document.body.classList.add('fading-out');
-      setTimeout(() => {
-        const titleContainer = document.querySelector('.game-title-container');
-        const startButton = document.querySelector('.start-button');
-        const characterSelection = document.getElementById('character-selection');
-
-        console.log("Hiding title container and start button");
-        titleContainer.classList.add('hidden'); // Hide the logo container
-        startButton.classList.add('hidden'); // Hide the Start button
-        startButton.style.display = 'none'; // Force hide the Start button
-        console.log("Showing character selection");
-        characterSelection.classList.remove('hidden'); // Show the character selection
-        document.body.classList.remove('fading-out');
-      }, 500); // Match the fade-out duration
-    }
-
-    function goBack() {
-      // Tambahkan efek fade out
-      document.body.classList.add('fading-out');
-
-      setTimeout(() => {
-        // Sembunyikan pemilihan karakter dan tampilkan layar utama
-        document.getElementById('character-selection').classList.add('hidden'); // Sembunyikan pemilihan karakter
-        const titleContainer = document.querySelector('.game-title-container');
-        const startButton = document.querySelector('.start-button');
-
-        titleContainer.classList.remove('hidden'); // Tampilkan logo container
-        startButton.classList.remove('hidden'); // Tampilkan tombol Start
-        startButton.style.display = 'flex'; // Pastikan tombol Start terlihat
-
-        // Hapus efek fade out setelah selesai
-        document.body.classList.remove('fading-out');
-      }, 500); // Durasi fade out (sesuai dengan CSS transition)
-    }
-
-    let currentIndex = 0;
-    const images = document.querySelectorAll('.carousel img');
-    const titles = ["Defrina", "Binar", "Purpla"];
-    const descriptions = [
-      "Defrina is a composed and tactical presence in Bratindra, dressed in a practical yet sharp ensemble that hints at both professionalism and readiness for action. With her crisp white shirt, red tie, tactical vest, and short gray skirt, she balances corporate influence with street-smart survival. Her knee-high black boots signal that she’s always prepared to step into the city’s unpredictable chaos.",
-      
-      "Binar is a fiercely independent and resourceful character navigating the neon-lit depths of Bratindra—a sprawling cyberpunk metropolis where tradition collides with high-tech advancements. Clad in a sleek, tactical jacket with crimson accents and a utility belt stocked with mysterious tech, she is equal parts fixer, hacker, and urban survivor. Her journey unfolds in a world of towering holograms, magnetic tuk-tuks, and digital street vendors, where every decision shapes her path—rebellion, prosperity, or protection of the forgotten.",
-      
-      "Purpla is a bold and enigmatic presence in the neon-soaked streets of Bratindra. With her striking purple hair and futuristic attire, she exudes confidence and adaptability. Her outfit blends sleek cyberpunk aesthetics with practical elements, preparing her for anything—from high-stakes negotiations to daring escapes. Purpla thrives in the shadows, navigating the bustling markets and the city's underbelly with ease."
-    ];
-
-    function showImage(index) {
-      images.forEach((img, i) => {
-        img.classList.toggle('active', i === index);
-      });
-      document.getElementById('image-title').textContent = titles[index];
-      document.getElementById('image-description').textContent = descriptions[index];
-      document.getElementById('selected-character-name').textContent = titles[index]; // Update the button text
-    }
-
-    function prevImage() {
-      currentIndex = (currentIndex - 1 + images.length) % images.length;
-      showImage(currentIndex);
-    }
-
-    function nextImage() {
-      currentIndex = (currentIndex + 1) % images.length;
-      showImage(currentIndex);
-    }
-
-    function playerChar() {
-      const selectedCharacter = {
-        name: titles[currentIndex],
-        directory: `/P.U.N.K/asset/${titles[currentIndex]}/`, // Save the character's directory
-        description: descriptions[currentIndex],
-      };
-
-      // Save the selected character to localStorage
-      localStorage.setItem("selectedCharacter", JSON.stringify(selectedCharacter));
-
-      // Redirect to game page
-      window.location.href = "game.html";
-    }
-  </script>
+  <script src="../javascript/index.js"></script>
 </body>
 </html>

@@ -632,8 +632,16 @@
             const playerTileX = Math.floor(player.x / (TILE_SIZE * MAP_SCALE));
             const playerTileY = Math.floor(player.y / (TILE_SIZE * MAP_SCALE));
 
-            // Check for teleport triggers
-            if (currentScene === 'map' && playerTileX === 4 && playerTileY === 17) {
+            // Check for sleep trigger in room
+            if (currentScene === 'room' && playerTileX === 13 && playerTileY === 18) {
+                showOptionOverlay();
+            }
+            // Check for teleport trigger to map
+            else if (currentScene === 'room' && playerTileX === 4 && playerTileY === 17) {
+                teleportToMap();
+            }
+            // Check for teleport trigger to room
+            else if (currentScene === 'map' && playerTileX === 4 && playerTileY === 17) {
                 teleportToRoom();
             }
             
@@ -676,8 +684,8 @@
                 // Draw room
                 ctx.drawImage(
                     roomImage,
-                    20 * TILE_SIZE * MAP_SCALE, // X position
-                    10 * TILE_SIZE * MAP_SCALE, // Y position
+                    ROOM_POSITION.x * TILE_SIZE * MAP_SCALE, // X position
+                    ROOM_POSITION.y * TILE_SIZE * MAP_SCALE, // Y position
                     roomImage.width * MAP_SCALE,
                     roomImage.height * MAP_SCALE
                 );

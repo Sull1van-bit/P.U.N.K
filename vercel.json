@@ -4,9 +4,25 @@
     {
       "src": "view/**",
       "use": "@vercel/static"
+    },
+    {
+      "src": "asset/**",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "javascript/**",
+      "use": "@vercel/static"
     }
   ],
   "routes": [
+    {
+      "src": "/asset/(.*)",
+      "dest": "/asset/$1"
+    },
+    {
+      "src": "/javascript/(.*)",
+      "dest": "/javascript/$1"
+    },
     {
       "src": "/(.*)",
       "dest": "/view/$1"

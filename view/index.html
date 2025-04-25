@@ -7,17 +7,17 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&display=swap" rel="stylesheet">
-  <link href="style.css" rel="stylesheet">
-  <link href="/P.U.N.K/CSS file/index.css" rel="stylesheet">
+  <link href="/view/style.css" rel="stylesheet">
+  <link href="/CSS file/index.css" rel="stylesheet">
 </head>
-<body class="flex flex-col items-center justify-center h-screen space-y-6 bg-cover bg-center bg-no-repeat" style="background-image: url('../asset/bg.jpg');">
+<body class="flex flex-col items-center justify-center h-screen space-y-6 bg-cover bg-center bg-no-repeat" style="background-image: url('/asset/bg.jpg');">
   <div class="game-title-container">
-    <img src="../asset/Logo2.png" alt="Game Frame" class="game-frame">
+    <img src="/asset/Logo2.png" alt="Game Frame" class="game-frame">
     <h1 class="game-title font-Pixelify-sans text-7xl text-white font-bold text-center">P.U.N.K</h1>
     <span class="game-subtitle font-Pixelify-sans text-2xl text-white text-center">Indonesia Cyberpunk Experience</span>
   </div>
   <button class="start-button" onclick="playClickSound(); startGame()">
-    <img src="../asset/button.gif" alt="Start Button" class="start-button-gif">
+    <img src="/asset/button.gif" alt="Start Button" class="start-button-gif">
   </button>
 
   <!-- Character Selection -->
@@ -34,9 +34,9 @@
 
       <div class="carousel relative w-5xl flex items-center overflow-hidden">
         <span class="arrow left-20" onclick="playClickSound(); prevImage()"><</span>
-        <img src="../asset/Defrina/Defrina.png" alt="Defrina" class="active">
-        <img src="/P.U.N.K/asset/Binar/Char Select.png" alt="Binar" class="hidden">
-        <img src="/P.U.N.K/asset/Purpla/Char Select.png" alt="Purpla" class="hidden">
+        <img src="/asset/Defrina/Defrina.png" alt="Defrina" class="active">
+        <img src="/asset/Binar/Char Select.png" alt="Binar" class="hidden">
+        <img src="/asset/Purpla/Char Select.png" alt="Purpla" class="hidden">
         <span class="arrow right-20" onclick="playClickSound(); nextImage()">></span>
       </div>
 
@@ -64,7 +64,7 @@
 
   <!-- Background Music -->
   <audio id="background-music" loop autoplay>
-    <source src="../asset/sound/menu.wav" type="audio/wav">
+    <source src="/asset/sound/menu.wav" type="audio/wav">
   </audio>
 
   <!-- Custom Music Control Button -->
@@ -72,10 +72,10 @@
 
   <!-- Button Sound -->
   <audio id="click-sound">
-    <source src="../asset/sound/click.wav" type="audio/wav">
+    <source src="/asset/sound/click.wav" type="audio/wav">
     Your browser does not support the audio element.
   </audio>
 
-  <script src="../javascript/index.js"></script>
+  <script src="/javascript/index.js"></script>
 </body>
 </html>

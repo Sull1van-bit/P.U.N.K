@@ -23,41 +23,387 @@
             top: 0;
             left: 0;
             width: 100%;
-            height: 60px;
-            background-color: rgba(0, 0, 0, 0.8);
+            height: 80px;
+            background: linear-gradient(180deg, 
+                #4a4a4a 0%,
+                #3a3a3a 20%,
+                #2a2a2a 50%,
+                #3a3a3a 80%,
+                #4a4a4a 100%
+            );
+            border-bottom: 2px solid #555;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
             display: flex;
             align-items: center;
-            padding: 0 20px;
+            padding: 0 30px;
             box-sizing: border-box;
             z-index: 1000;
         }
         .stat-container {
             display: flex;
             align-items: center;
-            margin-right: 20px;
+            margin-right: 30px;
+            min-width: 200px;
         }
-        .stat-icon {
-            width: 30px;
-            height: 30px;
-            margin-right: 5px;
+        .stat-container[style*="min-width: auto"] {
+            min-width: 200px;
+            margin-right: 0;
         }
-        .stat-value {
+        .stat-container[style*="min-width: auto"] .stat-value {
+            position: absolute;
+            right: 8px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 14px;
             color: white;
             font-family: Arial, sans-serif;
-            font-size: 16px;
+            font-weight: bold;
+            text-shadow: 2px 2px 2px rgba(0,0,0,0.7);
         }
-        #characterFrame {
-            width: 50px;
-            height: 50px;
-            margin-right: 20px;
-            border: 2px solid white;
-            border-radius: 5px;
+        .stat-container[style*="min-width: auto"] .stat-bar-container {
+            flex-grow: 1;
+            height: 20px;
+            background-color: rgba(0, 0, 0, 0.5);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
             overflow: hidden;
+            position: relative;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3) inset;
+        }
+        .stat-icon {
+            width: 40px;
+            height: 40px;
+            margin-right: 15px;
+        }
+        .stat-bar-container {
+            flex-grow: 1;
+            height: 20px;
+            background-color: rgba(0, 0, 0, 0.5);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3) inset;
+        }
+        .stat-bar {
+            height: 100%;
+            width: 100%;
+            transition: width 0.3s ease;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+        }
+        .stat-value {
+            position: absolute;
+            right: 8px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: white;
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+            text-shadow: 2px 2px 2px rgba(0,0,0,0.7);
+            font-weight: bold;
+        }
+        #hpBar { background-color: #ff4444; }
+        #energyBar { background-color: #44ff44; }
+        #hungerBar { background-color: #ffaa44; }
+        #happinessBar { background-color: #44aaff; }
+        #characterFrame {
+            width: 65px;
+            height: 65px;
+            margin-right: 30px;
+            border: 3px solid rgba(255, 255, 255, 0.5);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
         }
         #characterFrame img {
             width: 100%;
             height: 100%;
             object-fit: cover;
+        }
+        #moneyBox {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 5px 15px;
+            border-radius: 5px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-right: 20px;
+        }
+        #moneyBox img {
+            width: 30px;
+            height: 30px;
+        }
+        #moneyValue {
+            color: #ffeb3b;
+            font-family: Arial, sans-serif;
+            font-size: 18px;
+            font-weight: bold;
+            text-shadow: 2px 2px 2px rgba(0,0,0,0.7);
+        }
+        #optionOverlay {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: linear-gradient(180deg, #4a4a4a 0%, #2a2a2a 100%);
+            padding: 20px;
+            border: 2px solid #555;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.7);
+            z-index: 2000;
+        }
+        .option-button {
+            display: block;
+            width: 200px;
+            padding: 15px;
+            margin: 10px 0;
+            background: linear-gradient(180deg, #666 0%, #444 100%);
+            border: none;
+            border-radius: 5px;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            text-align: center;
+            transition: background 0.3s ease;
+        }
+        .option-button:hover {
+            background: linear-gradient(180deg, #777 0%, #555 100%);
+        }
+        #timeDisplay {
+            color: white;
+            font-family: Arial, sans-serif;
+            font-size: 20px;
+            font-weight: bold;
+            text-shadow: 2px 2px 2px rgba(0,0,0,0.7);
+            margin-left: auto; /* Push to the right */
+            padding: 10px 20px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        #timeDisplay::before {
+            content: "🕒";
+            font-size: 24px;
+        }
+        #codingGameOverlay {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: linear-gradient(180deg, #4a4a4a 0%, #2a2a2a 100%);
+            padding: 30px;
+            border: 2px solid #555;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.7);
+            z-index: 2000;
+            width: 600px;
+            color: white;
+            font-family: 'Courier New', monospace;
+        }
+        #codingGameOverlay h2 {
+            text-align: center;
+            margin-bottom: 10px;
+            color: #44ff44;
+            text-shadow: 0 0 10px rgba(68, 255, 68, 0.5);
+        }
+        #codingGameOverlay p {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #aaa;
+            font-size: 14px;
+        }
+        .button-group {
+            display: flex;
+            gap: 10px;
+        }
+        .button-group button {
+            flex: 1;
+        }
+        #codeDisplay {
+            background: #1a1a1a;
+            padding: 20px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            font-size: 18px;
+            line-height: 1.5;
+            min-height: 100px;
+            white-space: pre-wrap;
+        }
+        #codeInput {
+            width: 100%;
+            padding: 10px;
+            background: #1a1a1a;
+            border: 1px solid #555;
+            color: white;
+            font-family: 'Courier New', monospace;
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+        #codingGameOverlay button {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            margin: 10px 0;
+            background: linear-gradient(180deg, #666 0%, #444 100%);
+            border: none;
+            border-radius: 5px;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            text-align: center;
+            transition: background 0.3s ease;
+        }
+        #codingGameOverlay button:hover {
+            background: linear-gradient(180deg, #777 0%, #555 100%);
+        }
+        .correct {
+            color: #44ff44;
+        }
+        .incorrect {
+            color: #ff4444;
+        }
+        #foodShopOverlay {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: linear-gradient(180deg, #4a4a4a 0%, #2a2a2a 100%);
+            padding: 30px;
+            border: 2px solid #555;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.7);
+            z-index: 2000;
+            width: 400px;
+            color: white;
+            font-family: Arial, sans-serif;
+        }
+        #foodShopOverlay h2 {
+            text-align: center;
+            margin-bottom: 10px;
+            color: #ff9800;
+            text-shadow: 0 0 10px rgba(255, 152, 0, 0.5);
+        }
+        .food-items {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin: 20px 0;
+        }
+        .food-item {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #555;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .food-item:hover {
+            background: rgba(255, 152, 0, 0.1);
+            border-color: #ff9800;
+        }
+        .food-item img {
+            width: 40px;
+            height: 40px;
+            margin-bottom: 5px;
+        }
+        .food-item .price {
+            color: #ffeb3b;
+            font-weight: bold;
+        }
+        .food-item .hunger-boost {
+            color: #ff9800;
+            font-size: 0.9em;
+        }
+        #foodShopOverlay button.close-button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            background: linear-gradient(180deg, #666 0%, #444 100%);
+            border: none;
+            border-radius: 5px;
+            color: white;
+            cursor: pointer;
+        }
+        #foodShopOverlay button.close-button:hover {
+            background: linear-gradient(180deg, #777 0%, #555 100%);
+        }
+        #tictactoeOverlay {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: linear-gradient(180deg, #4a4a4a 0%, #2a2a2a 100%);
+            padding: 30px;
+            border: 2px solid #555;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.7);
+            z-index: 2000;
+            color: white;
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        #tictactoeOverlay h2 {
+            color: #44aaff;
+            text-shadow: 0 0 10px rgba(68, 170, 255, 0.5);
+            margin-bottom: 20px;
+        }
+        .tictactoe-board {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin: 20px auto;
+            width: 300px;
+        }
+        .tictactoe-cell {
+            background: rgba(0, 0, 0, 0.3);
+            border: 2px solid #555;
+            border-radius: 5px;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .tictactoe-cell:hover {
+            background: rgba(68, 170, 255, 0.1);
+            border-color: #44aaff;
+        }
+        .tictactoe-cell.x {
+            color: #ff4444;
+        }
+        .tictactoe-cell.o {
+            color: #44aaff;
+        }
+        #gameStatus {
+            margin: 20px 0;
+            font-size: 18px;
+            min-height: 27px;
+        }
+        #tictactoeOverlay button {
+            padding: 10px 20px;
+            margin: 5px;
+            background: linear-gradient(180deg, #666 0%, #444 100%);
+            border: none;
+            border-radius: 5px;
+            color: white;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        #tictactoeOverlay button:hover {
+            background: linear-gradient(180deg, #777 0%, #555 100%);
         }
     </style>
 </head>
@@ -67,25 +413,106 @@
             <img id="characterIdle" src="" alt="Character">
         </div>
         <div class="stat-container">
-            <img class="stat-icon" src="asset/icon/hp.png" alt="HP">
-            <span class="stat-value" id="hpValue">100</span>
+            <img class="stat-icon" src="/P.U.N.K/asset/icon/hp.png" alt="HP">
+            <div class="stat-bar-container">
+                <div id="hpBar" class="stat-bar"></div>
+                <span class="stat-value" id="hpValue">100%</span>
+            </div>
         </div>
         <div class="stat-container">
-            <img class="stat-icon" src="asset/icon/energy.png" alt="Energy">
-            <span class="stat-value" id="energyValue">100</span>
+            <img class="stat-icon" src="/P.U.N.K/asset/icon/energy.png" alt="Energy">
+            <div class="stat-bar-container">
+                <div id="energyBar" class="stat-bar"></div>
+                <span class="stat-value" id="energyValue">100%</span>
+            </div>
         </div>
         <div class="stat-container">
-            <img class="stat-icon" src="asset/icon/hunger.png" alt="Hunger">
-            <span class="stat-value" id="hungerValue">100</span>
+            <img class="stat-icon" src="/P.U.N.K/asset/icon/hunger.png" alt="Hunger">
+            <div class="stat-bar-container">
+                <div id="hungerBar" class="stat-bar"></div>
+                <span class="stat-value" id="hungerValue">100%</span>
+            </div>
         </div>
         <div class="stat-container">
-            <img class="stat-icon" src="asset/icon/money.png" alt="Money">
-            <span class="stat-value" id="moneyValue">0</span>
+            <img class="stat-icon" src="/P.U.N.K/asset/icon/happiness.png" alt="Happiness">
+            <div class="stat-bar-container">
+                <div id="happinessBar" class="stat-bar"></div>
+                <span class="stat-value" id="happinessValue">100%</span>
+            </div>
         </div>
-        <div class="stat-container">
-            <img class="stat-icon" src="asset/icon/happiness.png" alt="Happiness">
-            <span class="stat-value" id="happinessValue">100</span>
+        <div id="moneyBox">
+            <img src="/P.U.N.K/asset/icon/money.png" alt="Money">
+            <span id="moneyValue">$0</span>
         </div>
+        <div id="timeDisplay">
+            <span id="timeValue">00:00</span>
+        </div>
+    </div>
+
+    <div id="optionOverlay">
+        <button class="option-button" onclick="sleep()">Sleep</button>
+        <button class="option-button" onclick="closeOverlay()">Cancel</button>
+    </div>
+
+    <div id="codingGameOverlay">
+        <h2>Code Challenge</h2>
+        <p>Type the code exactly as shown. Press Enter or click Submit when done.</p>
+        <div id="codeDisplay"></div>
+        <input type="text" id="codeInput" placeholder="Type the code here...">
+        <div class="button-group">
+            <button onclick="checkCode()">Submit</button>
+            <button onclick="startCodingGame()">New Challenge</button>
+            <button onclick="closeCodingGame()">Cancel</button>
+        </div>
+    </div>
+
+    <div id="foodShopOverlay">
+        <h2>Food Shop</h2>
+        <div class="food-items">
+            <div class="food-item" onclick="buyFood('Apple', 2, 15)">
+                <img src="/P.U.N.K/asset/icon/apple.png" alt="Apple">
+                <span>Apple</span>
+                <span class="price">$2</span>
+                <span class="hunger-boost">+15 Hunger</span>
+            </div>
+            <div class="food-item" onclick="buyFood('Bread', 3, 20)">
+                <img src="/P.U.N.K/asset/icon/bread.png" alt="Bread">
+                <span>Bread</span>
+                <span class="price">$3</span>
+                <span class="hunger-boost">+20 Hunger</span>
+            </div>
+            <div class="food-item" onclick="buyFood('Cheese', 5, 25)">
+                <img src="/P.U.N.K/asset/icon/cheese.png" alt="Cheese">
+                <span>Cheese</span>
+                <span class="price">$5</span>
+                <span class="hunger-boost">+25 Hunger</span>
+            </div>
+            <div class="food-item" onclick="buyFood('Steak', 10, 40)">
+                <img src="/P.U.N.K/asset/icon/steak.png" alt="Steak">
+                <span>Steak</span>
+                <span class="price">$10</span>
+                <span class="hunger-boost">+40 Hunger</span>
+            </div>
+        </div>
+        <button class="close-button" onclick="closeFoodShop()">Close</button>
+    </div>
+
+    <div id="tictactoeOverlay">
+        <h2>Tic-tac-toe Challenge</h2>
+        <div id="gameStatus"></div>
+        <div class="tictactoe-board" id="tictactoeBoard">
+            <div class="tictactoe-cell" data-index="0"></div>
+            <div class="tictactoe-cell" data-index="1"></div>
+            <div class="tictactoe-cell" data-index="2"></div>
+            <div class="tictactoe-cell" data-index="3"></div>
+            <div class="tictactoe-cell" data-index="4"></div>
+            <div class="tictactoe-cell" data-index="5"></div>
+            <div class="tictactoe-cell" data-index="6"></div>
+            <div class="tictactoe-cell" data-index="7"></div>
+            <div class="tictactoe-cell" data-index="8"></div>
+        </div>
+        <button onclick="startNewGame()">New Game</button>
+        <button onclick="closeTicTacToe()">Close</button>
     </div>
 
     <canvas id="gameCanvas"></canvas>
@@ -98,7 +525,7 @@
         console.log('Selected character:', selectedCharacter);
         
         // Stats initialization
-        const stats = {
+        let stats = {
             hp: 100,
             energy: 100,
             hunger: 100,
@@ -108,11 +535,19 @@
 
         // Update stats display
         function updateStats() {
-            document.getElementById('hpValue').textContent = stats.hp;
-            document.getElementById('energyValue').textContent = stats.energy;
-            document.getElementById('hungerValue').textContent = stats.hunger;
-            document.getElementById('moneyValue').textContent = stats.money;
-            document.getElementById('happinessValue').textContent = stats.happiness;
+            console.log('Updating stats:', stats); // Debug log
+            // Update text values
+            document.getElementById('hpValue').textContent = stats.hp + '%';
+            document.getElementById('energyValue').textContent = stats.energy + '%';
+            document.getElementById('hungerValue').textContent = stats.hunger + '%';
+            document.getElementById('moneyValue').textContent = '$' + stats.money;
+            document.getElementById('happinessValue').textContent = stats.happiness + '%';
+
+            // Update bar widths
+            document.getElementById('hpBar').style.width = stats.hp + '%';
+            document.getElementById('energyBar').style.width = stats.energy + '%';
+            document.getElementById('hungerBar').style.width = stats.hunger + '%';
+            document.getElementById('happinessBar').style.width = stats.happiness + '%';
         }
 
         // Set character idle animation
@@ -181,11 +616,11 @@
         
         let currentScene = 'map'; // 'map' or 'room'
         let roomImage = new Image();
-        roomImage.src = '/P.U.N.K/asset/Location/room.png'; // Example room image
+        roomImage.src = '/P.U.N.K/asset/Location/Kamar.png'; // Example room image
 
         const ROOM_POSITION = {
-          x: 15, // Changed from 20 to better fit within a 29x29 map
-          y: 5   // Changed from 10 to better fit within a 29x29 map
+          x: 1, // Start at grid coordinate 13
+          y: 10   // Start at grid coordinate 7
         };
 
         // Character class with fixed movement
@@ -370,7 +805,7 @@
                 // Row from x8 to x29 at y28
                 { x: 8, y: 28, width: 22, height: 1 },
                 // New vertical block at x11 from y5 to y17
-                { x: 11, y: 5,  width: 1, height: 12 }, // height is 13 because 17 - 5 + 1 = 13 blocks
+                { x: 11, y: 5,  width: 1, height: 13 }, // height is 13 because 17 - 5 + 1 = 13 blocks
                 { x: 5,  y: 17, width: 6, height: 1 }, // Added new block
                 { x: 3, y: 17, width: 1, height: 1},
                 { x: 6,  y: 5,  width: 6, height: 1},
@@ -518,9 +953,9 @@
           }
           function completeRoomSetup() {
               // Set player position WITHIN the room
-              // Position the player near the door or entrance (adjustable)
-              player.x = (ROOM_POSITION.x * TILE_SIZE * MAP_SCALE) + (2 * TILE_SIZE * MAP_SCALE);  
-              player.y = (ROOM_POSITION.y * TILE_SIZE * MAP_SCALE) + (4 * TILE_SIZE * MAP_SCALE);
+              // Position the player at coordinates 8,22
+              player.x = (8 * TILE_SIZE * MAP_SCALE);  
+              player.y = (22 * TILE_SIZE * MAP_SCALE);
               
               // Create room collision map
               createRoomCollisionMap();
@@ -530,9 +965,9 @@
        }
 
        function teleportToMap() {
-            // Set coordinates for return position (adjacent to the room entrance)
-            player.x = 5 * TILE_SIZE * MAP_SCALE;
-            player.y = 17 * TILE_SIZE * MAP_SCALE;
+            // Set coordinates for return position at 4,19
+            player.x = 4 * TILE_SIZE * MAP_SCALE;
+            player.y = 19 * TILE_SIZE * MAP_SCALE;
             
             // Change scene back to map
             currentScene = 'map';
@@ -540,90 +975,76 @@
             // Restore main map collision
             createCollisionMap();
             
-            console.log('Teleported back to map');
+            console.log('Teleported back to map at position 4,19');
         }
 
         function createRoomCollisionMap() {
-        // Calculate room dimensions based on the image
-        const roomWidthTiles = Math.ceil(roomImage.width / TILE_SIZE);
-        const roomHeightTiles = Math.ceil(roomImage.height / TILE_SIZE);
-        
-        // Set collision map dimensions for the room
-        collisionMap.width = 29; // Keep map size consistent 
-        collisionMap.height = 29; // Keep map size consistent
-        collisionMap.tiles = new Array(collisionMap.width * collisionMap.height).fill(0); // Clear all collision
-        
-        // Add walls around the room
-        for (let x = ROOM_POSITION.x; x < ROOM_POSITION.x + roomWidthTiles; x++) {
-            // Top and bottom walls
-            if (x >= 0 && x < collisionMap.width) {
-                // Top wall
-                if (ROOM_POSITION.y >= 0 && ROOM_POSITION.y < collisionMap.height) {
-                    collisionMap.tiles[ROOM_POSITION.y * collisionMap.width + x] = 1;
-                }
-                
-                // Bottom wall
-                const bottomY = ROOM_POSITION.y + roomHeightTiles - 1;
-                if (bottomY >= 0 && bottomY < collisionMap.height) {
-                    collisionMap.tiles[bottomY * collisionMap.width + x] = 1;
-                }
-            }
-        }
-        
-        for (let y = ROOM_POSITION.y; y < ROOM_POSITION.y + roomHeightTiles; y++) {
-            // Left and right walls
-            if (y >= 0 && y < collisionMap.height) {
-                // Left wall
-                if (ROOM_POSITION.x >= 0 && ROOM_POSITION.x < collisionMap.width) {
-                    collisionMap.tiles[y * collisionMap.width + ROOM_POSITION.x] = 1;
-                }
-                
-                // Right wall
-                const rightX = ROOM_POSITION.x + roomWidthTiles - 1;
-                if (rightX >= 0 && rightX < collisionMap.width) {
-                    collisionMap.tiles[y * collisionMap.width + rightX] = 1;
-                }
-            }
-        }
-        
-        // Add furniture collision based on room layout
-        // These are examples - adjust based on your room image
-        const roomFurniture = [
-            // Format: {x, y, width, height} relative to room position
-            { x: 2, y: 2, width: 2, height: 1 },  // Bed
-            { x: 5, y: 2, width: 1, height: 1 },  // Desk
-            { x: 7, y: 2, width: 2, height: 1 },  // Computer
-            { x: 10, y: 1, width: 1, height: 2 }  // Cabinet
-        ];
-        
-        // Add furniture collision
-        roomFurniture.forEach(furniture => {
-            const worldX = ROOM_POSITION.x + furniture.x;
-            const worldY = ROOM_POSITION.y + furniture.y;
+            // Calculate room dimensions based on the image
+            const roomWidthTiles = Math.ceil(roomImage.width / TILE_SIZE);
+            const roomHeightTiles = Math.ceil(roomImage.height / TILE_SIZE);
             
-            for (let y = 0; y < furniture.height; y++) {
-                for (let x = 0; x < furniture.width; x++) {
-                    const mapX = worldX + x;
-                    const mapY = worldY + y;
-                    
-                    if (mapX >= 0 && mapX < collisionMap.width && 
-                        mapY >= 0 && mapY < collisionMap.height) {
-                        collisionMap.tiles[mapY * collisionMap.width + mapX] = 1;
+            // Set collision map dimensions for the room
+            collisionMap.width = 29; // Keep map size consistent 
+            collisionMap.height = 29; // Keep map size consistent
+            collisionMap.tiles = new Array(collisionMap.width * collisionMap.height).fill(0); // Clear all collision
+            
+            // Add walls around the room
+            for (let x = ROOM_POSITION.x; x < ROOM_POSITION.x + 26; x++) {
+                // Top and bottom walls
+                if (x >= 0 && x < collisionMap.width) {
+                    // Top wall
+                    collisionMap.tiles[ROOM_POSITION.y * collisionMap.width + x] = 1;
+                    // Bottom wall
+                    collisionMap.tiles[(ROOM_POSITION.y + 29) * collisionMap.width + x] = 1;
+                }
+            }
+            
+            // Add side walls
+            for (let y = ROOM_POSITION.y; y < ROOM_POSITION.y + 29; y++) {
+                if (y >= 0 && y < collisionMap.height) {
+                    // Left wall
+                    collisionMap.tiles[y * collisionMap.width + ROOM_POSITION.x] = 1;
+                    // Right wall
+                    collisionMap.tiles[y * collisionMap.width + (ROOM_POSITION.x + 25)] = 1;
+                }
+            }
+            
+            // Add furniture collision
+            const roomFurniture = [
+                { x: 5, y: 7, width: 6, height: 5 },  // Existing furniture
+                { x: 10, y: 5  , width: 2, height: 2 },  // Example of another piece
+                { x: 5, y: 13, width: 19, height: 1},
+                { x: 19, y: 12, width: 6, height: 1},
+                { x: 11, y: 7, width: 18, height: 1},
+                { x: 20, y: 8, width: 10, height: 1},
+                { x: 4, y: 10, width: 1, height: 5},
+            ];
+            
+            // Add furniture collision
+            roomFurniture.forEach(furniture => {
+                for (let y = 0; y < furniture.height; y++) {
+                    for (let x = 0; x < furniture.width; x++) {
+                        const mapX = ROOM_POSITION.x + furniture.x + x;
+                        const mapY = ROOM_POSITION.y + furniture.y + y;
+                        
+                        if (mapX >= 0 && mapX < collisionMap.width && 
+                            mapY >= 0 && mapY < collisionMap.height) {
+                            collisionMap.tiles[mapY * collisionMap.width + mapX] = 1;
+                            console.log(`Added collision at ${mapX},${mapY}`); // Debug log
+                        }
                     }
                 }
+            });
+            
+            // Add door for exiting (mark it with value 2)
+            const doorX = 6;  // Changed to x coordinate 6
+            const doorY = 22; // Changed to y coordinate 22
+            
+            if (doorX >= 0 && doorX < collisionMap.width && 
+                doorY >= 0 && doorY < collisionMap.height) {
+                collisionMap.tiles[doorY * collisionMap.width + doorX] = 2; // Door = 2
             }
-        });
-        
-        // Add door for exiting (mark it with value 2)
-        const doorX = ROOM_POSITION.x + 2; // Adjust door position as needed
-        const doorY = ROOM_POSITION.y + roomHeightTiles - 1; // Bottom wall
-        
-        if (doorX >= 0 && doorX < collisionMap.width && 
-            doorY >= 0 && doorY < collisionMap.height) {
-            collisionMap.tiles[doorY * collisionMap.width + doorX] = 2; // Door = 2
         }
-    }
-
 
         // Game initialization and loop
         let lastTime = 0;
@@ -632,8 +1053,10 @@
             const playerTileX = Math.floor(player.x / (TILE_SIZE * MAP_SCALE));
             const playerTileY = Math.floor(player.y / (TILE_SIZE * MAP_SCALE));
 
-            // Check for teleport triggers
-            if (currentScene === 'map' && playerTileX === 4 && playerTileY === 17) {
+            // Check for teleport triggers with a small range to make it more reliable
+            if (currentScene === 'map' && 
+                playerTileX === 4 && 
+                playerTileY === 17) {
                 teleportToRoom();
             }
             
@@ -643,6 +1066,37 @@
                 if (collisionMap.tiles[tileIndex] === 2) { // 2 = door
                     teleportToMap();
                 }
+            }
+
+            // Check for sleep option position in room
+            if (currentScene === 'room' && 
+                playerTileX === 13 && 
+                playerTileY === 18) {
+                showSleepOption();
+            }
+
+            // Check for computer position in room
+            if (currentScene === 'room' && 
+                playerTileX === 20 && 
+                playerTileY === 18 &&
+                !isCodingGameShowing) { // Only check if popup isn't showing
+                showCodingGame();
+            }
+
+            // Check for food shop position in main map
+            if (currentScene === 'map' && 
+                playerTileX === 21 && 
+                playerTileY === 17 &&
+                !isFoodShopShowing) {
+                showFoodShop();
+            }
+
+            // Check for Tic-tac-toe position in main map
+            if (currentScene === 'map' && 
+                playerTileX === 11 && 
+                playerTileY === 17 &&
+                !isTicTacToeShowing) {
+                showTicTacToe();
             }
 
             // Calculate delta time
@@ -673,18 +1127,38 @@
                     mapImage.height * MAP_SCALE
                 );
             } else if (currentScene === 'room') {
-                // Draw room
-                ctx.drawImage(
-                    roomImage,
-                    20 * TILE_SIZE * MAP_SCALE, // X position
-                    10 * TILE_SIZE * MAP_SCALE, // Y position
-                    roomImage.width * MAP_SCALE,
-                    roomImage.height * MAP_SCALE
-                );
+                // Only draw room if the image is loaded
+                if (roomImage.complete && roomImage.naturalWidth > 0) {
+                    // Calculate room dimensions to match visible grid area
+                    const roomWidth = 26 * TILE_SIZE * MAP_SCALE;  // Span from 13 to 27
+                    const roomHeight = 29.8 * TILE_SIZE * MAP_SCALE;  // Make room taller
+                    
+                    ctx.drawImage(
+                        roomImage,
+                        ROOM_POSITION.x * TILE_SIZE * MAP_SCALE,
+                        ROOM_POSITION.y * TILE_SIZE * MAP_SCALE,
+                        roomWidth,  // Use calculated width
+                        roomHeight  // Use calculated height
+                    );
+                } else {
+                    // If room image isn't loaded, draw a placeholder
+                    ctx.fillStyle = 'rgba(0, 0, 0, 0.5)';
+                    ctx.fillRect(
+                        ROOM_POSITION.x * TILE_SIZE * MAP_SCALE,
+                        ROOM_POSITION.y * TILE_SIZE * MAP_SCALE,
+                        15 * TILE_SIZE * MAP_SCALE,  // Match room width
+                        12 * TILE_SIZE * MAP_SCALE   // Match room height
+                    );
+                    ctx.fillStyle = 'white';
+                    ctx.font = '20px Arial';
+                    ctx.fillText('Loading room...', 
+                        ROOM_POSITION.x * TILE_SIZE * MAP_SCALE + 20, 
+                        ROOM_POSITION.y * TILE_SIZE * MAP_SCALE + 40
+                    );
+                }
             }
             
             // Draw collision map for debugging
-            drawCollisionMap();
             
             // Draw player
             player.draw();
@@ -707,6 +1181,337 @@
 
             requestAnimationFrame(gameLoop);
         }
+
+        // Add these new functions
+        function showSleepOption() {
+            document.getElementById('optionOverlay').style.display = 'block';
+        }
+
+        function closeOverlay() {
+            document.getElementById('optionOverlay').style.display = 'none';
+        }
+
+        // Add time system
+        const gameTime = {
+            hours: 8,
+            minutes: 0,
+            daysPassed: 0,
+            
+            addMinutes: function(minutes) {
+                this.minutes += minutes;
+                while (this.minutes >= 60) {
+                    this.minutes -= 60;
+                    this.hours++;
+                }
+                while (this.hours >= 24) {
+                    this.hours -= 24;
+                    this.daysPassed++;
+                }
+                this.updateDisplay();
+            },
+            
+            updateDisplay: function() {
+                const hoursStr = this.hours.toString().padStart(2, '0');
+                const minutesStr = this.minutes.toString().padStart(2, '0');
+                document.getElementById('timeValue').textContent = `${hoursStr}:${minutesStr}`;
+            }
+        };
+
+        // Update time every 5 seconds (same as stats update)
+        setInterval(() => {
+            gameTime.addMinutes(10); // Add 10 minutes every 5 seconds
+        }, 5000);
+
+        // Initialize time display
+        gameTime.updateDisplay();
+
+        // Modify sleep function to advance time
+        function sleep() {
+            // Advance time by 8 hours
+            gameTime.addMinutes(480);
+            
+            // Restore energy and health
+            stats.energy = 100;
+            stats.hp = Math.min(stats.hp + 30, 100);
+            updateStats();
+            
+            // Close the overlay
+            closeOverlay();
+        }
+
+        // Add coding game variables
+        let currentCode = '';
+        let codeInput = '';
+        let isCodingGameActive = false;
+        let isCodingGameShowing = false; // Add flag to track if popup is showing
+
+        // Add coding game functions
+        function showCodingGame() {
+            if (!isCodingGameShowing) { // Only show if not already showing
+                document.getElementById('codingGameOverlay').style.display = 'block';
+                startCodingGame();
+                isCodingGameShowing = true;
+            }
+        }
+
+        function closeCodingGame() {
+            document.getElementById('codingGameOverlay').style.display = 'none';
+            isCodingGameActive = false;
+            isCodingGameShowing = false; // Reset flag when closing
+        }
+
+        function generateRandomCode() {
+            const codeSnippets = [
+                'function calculateSum(a, b) {\n  return a + b;\n}',
+                'const numbers = [1, 2, 3, 4, 5];\nconst sum = numbers.reduce((a, b) => a + b);',
+                'class Person {\n  constructor(name) {\n    this.name = name;\n  }\n}',
+                'const fetchData = async () => {\n  const response = await fetch(url);\n  return response.json();\n}',
+                'const map = new Map();\nmap.set("key", "value");\nconsole.log(map.get("key"));'
+            ];
+            return codeSnippets[Math.floor(Math.random() * codeSnippets.length)];
+        }
+
+        function startCodingGame() {
+            currentCode = generateRandomCode();
+            codeInput = '';
+            isCodingGameActive = true;
+            document.getElementById('codeDisplay').textContent = currentCode;
+            document.getElementById('codeInput').value = '';
+            document.getElementById('codeInput').focus();
+        }
+
+        function checkCode() {
+            if (!isCodingGameActive) return;
+
+            const input = document.getElementById('codeInput').value;
+            const display = document.getElementById('codeDisplay');
+            
+            // Normalize both strings by removing extra whitespace
+            const normalizedInput = input.replace(/\s+/g, ' ').trim();
+            const normalizedCode = currentCode.replace(/\s+/g, ' ').trim();
+            
+            if (normalizedInput === normalizedCode) {
+                // Player won
+                stats.money += 15;
+                console.log('Money before update:', stats.money); // Debug log
+                gameTime.addMinutes(480); // Add 8 hours
+                updateStats();
+                console.log('Money after update:', stats.money); // Debug log
+                closeCodingGame();
+            } else {
+                // Show error message
+                display.innerHTML = `<span style="color: #ff4444">Incorrect! Try again or start a new challenge.</span><br><br>${currentCode}`;
+            }
+        }
+
+        // Add event listener for code input
+        document.getElementById('codeInput').addEventListener('input', function(e) {
+            if (!isCodingGameActive) return;
+            
+            const input = e.target.value;
+            const display = document.getElementById('codeDisplay');
+            let html = '';
+            
+            for (let i = 0; i < currentCode.length; i++) {
+                if (i < input.length) {
+                    if (input[i] === currentCode[i]) {
+                        html += `<span class="correct">${currentCode[i]}</span>`;
+                    } else {
+                        html += `<span class="incorrect">${currentCode[i]}</span>`;
+                    }
+                } else {
+                    html += currentCode[i];
+                }
+            }
+            
+            display.innerHTML = html;
+        });
+
+        // Add event listener for Enter key
+        document.getElementById('codeInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault(); // Prevent form submission
+                checkCode();
+            }
+        });
+
+        // Add food shop variables and functions
+        let isFoodShopShowing = false;
+
+        function showFoodShop() {
+            if (!isFoodShopShowing) {
+                document.getElementById('foodShopOverlay').style.display = 'block';
+                isFoodShopShowing = true;
+            }
+        }
+
+        function closeFoodShop() {
+            document.getElementById('foodShopOverlay').style.display = 'none';
+            isFoodShopShowing = false;
+        }
+
+        function buyFood(name, price, hungerBoost) {
+            if (stats.money >= price) {
+                stats.money -= price;
+                stats.hunger = Math.min(100, stats.hunger + hungerBoost);
+                updateStats();
+                alert(`Bought ${name}! Hunger +${hungerBoost}`);
+            } else {
+                alert("Not enough money!");
+            }
+        }
+
+        // Add Tic-tac-toe variables and functions
+        let isTicTacToeShowing = false;
+        let currentBoard = Array(9).fill('');
+        let isPlayerTurn = true;
+        let gameEnded = false;
+
+        function showTicTacToe() {
+            if (!isTicTacToeShowing) {
+                document.getElementById('tictactoeOverlay').style.display = 'block';
+                isTicTacToeShowing = true;
+                startNewGame();
+            }
+        }
+
+        function closeTicTacToe() {
+            document.getElementById('tictactoeOverlay').style.display = 'none';
+            isTicTacToeShowing = false;
+        }
+
+        function startNewGame() {
+            currentBoard = Array(9).fill('');
+            isPlayerTurn = true;
+            gameEnded = false;
+            updateBoard();
+            document.getElementById('gameStatus').textContent = "Your turn! (X)";
+        }
+
+        function updateBoard() {
+            const cells = document.getElementsByClassName('tictactoe-cell');
+            for (let i = 0; i < cells.length; i++) {
+                cells[i].textContent = currentBoard[i];
+                cells[i].className = 'tictactoe-cell' + (currentBoard[i] ? ' ' + currentBoard[i].toLowerCase() : '');
+            }
+        }
+
+        function checkWinner() {
+            const winPatterns = [
+                [0, 1, 2], [3, 4, 5], [6, 7, 8], // Rows
+                [0, 3, 6], [1, 4, 7], [2, 5, 8], // Columns
+                [0, 4, 8], [2, 4, 6] // Diagonals
+            ];
+
+            for (let pattern of winPatterns) {
+                const [a, b, c] = pattern;
+                if (currentBoard[a] && currentBoard[a] === currentBoard[b] && currentBoard[a] === currentBoard[c]) {
+                    return currentBoard[a];
+                }
+            }
+
+            if (currentBoard.every(cell => cell !== '')) {
+                return 'tie';
+            }
+
+            return null;
+        }
+
+        function makeAIMove() {
+            // Simple AI: Look for winning move, then blocking move, then center, then random
+            const emptyCells = currentBoard.reduce((acc, cell, index) => {
+                if (!cell) acc.push(index);
+                return acc;
+            }, []);
+
+            // Try to win
+            for (let index of emptyCells) {
+                currentBoard[index] = 'O';
+                if (checkWinner() === 'O') {
+                    return;
+                }
+                currentBoard[index] = '';
+            }
+
+            // Try to block
+            for (let index of emptyCells) {
+                currentBoard[index] = 'X';
+                if (checkWinner() === 'X') {
+                    currentBoard[index] = 'O';
+                    return;
+                }
+                currentBoard[index] = '';
+            }
+
+            // Take center if available
+            if (!currentBoard[4]) {
+                currentBoard[4] = 'O';
+                return;
+            }
+
+            // Take random empty cell
+            const randomIndex = emptyCells[Math.floor(Math.random() * emptyCells.length)];
+            currentBoard[randomIndex] = 'O';
+        }
+
+        function handleCellClick(index) {
+            if (!isPlayerTurn || gameEnded || currentBoard[index]) return;
+
+            // Player's move
+            currentBoard[index] = 'X';
+            updateBoard();
+
+            let winner = checkWinner();
+            if (winner) {
+                handleGameEnd(winner);
+                return;
+            }
+
+            // AI's move
+            isPlayerTurn = false;
+            document.getElementById('gameStatus').textContent = "AI is thinking...";
+            
+            setTimeout(() => {
+                makeAIMove();
+                updateBoard();
+                
+                winner = checkWinner();
+                if (winner) {
+                    handleGameEnd(winner);
+                    return;
+                }
+
+                isPlayerTurn = true;
+                document.getElementById('gameStatus').textContent = "Your turn! (X)";
+            }, 500);
+        }
+
+        function handleGameEnd(winner) {
+            gameEnded = true;
+            let message = '';
+            if (winner === 'X') {
+                message = "You won! Happiness increased!";
+                stats.happiness = Math.min(100, stats.happiness + 15);
+            } else if (winner === 'O') {
+                message = "You lost! Happiness decreased...";
+                stats.happiness = Math.max(0, stats.happiness - 10);
+            } else {
+                message = "It's a tie!";
+                stats.happiness = Math.min(100, stats.happiness + 5);
+            }
+            document.getElementById('gameStatus').textContent = message;
+            updateStats();
+        }
+
+        // Add event listeners for the Tic-tac-toe cells
+        document.addEventListener('DOMContentLoaded', function() {
+            const cells = document.getElementsByClassName('tictactoe-cell');
+            for (let i = 0; i < cells.length; i++) {
+                cells[i].addEventListener('click', function() {
+                    handleCellClick(parseInt(this.getAttribute('data-index')));
+                });
+            }
+        });
     </script>
 </body>
 </html>
